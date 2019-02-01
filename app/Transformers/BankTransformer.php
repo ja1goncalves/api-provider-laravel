@@ -2,8 +2,8 @@
 
 namespace App\Transformers;
 
-use League\Fractal\TransformerAbstract;
 use App\Entities\Bank;
+use League\Fractal\TransformerAbstract;
 
 /**
  * Class BankTransformer.
@@ -22,12 +22,10 @@ class BankTransformer extends TransformerAbstract
     public function transform(Bank $model)
     {
         return [
-            'id'         => (int) $model->id,
-
-            /* place your other model properties here */
-
-            'created_at' => $model->created_at,
-            'updated_at' => $model->updated_at
+            'id'    => (int) $model->id,
+            'title' => $model->title,
+            'code'  => $model->code
         ];
     }
+
 }
