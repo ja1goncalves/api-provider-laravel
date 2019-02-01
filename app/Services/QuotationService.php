@@ -8,7 +8,7 @@
 
 namespace App\Services;
 
-use App\Presenters\QuotationPresenter;
+use App\Presenters\QuotationsPresenter;
 use App\Repositories\QuotationRepository;
 use App\Services\Traits\CrudMethods;
 use Carbon\Carbon;
@@ -49,7 +49,7 @@ class QuotationService
     {
         return $this->repository
             ->orderBy('created', 'desc')
-            ->setPresenter(QuotationPresenter::class)
+            ->setPresenter(QuotationsPresenter::class)
             ->with('programs.program')->with('orders.status')
             ->findWhere(['provider_id' => $provider->id,
                 ['created', '>', Carbon::now()->subDays(2)]

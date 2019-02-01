@@ -6,7 +6,6 @@ use App\Http\Controllers\Traits\CrudMethods;
 use App\Services\ProviderService;
 use App\Services\QuotationService;
 use App\Validators\QuotationValidator;
-use Illuminate\Http\Request;
 
 /**
  * Class QuotationsController.
@@ -46,14 +45,9 @@ class QuotationsController extends Controller
         $this->validator  = $validator;
     }
 
-//    /**
-//     * @param Request $request
-//     * @return mixed
-//     * @throws \pmill\AwsCognito\Exception\TokenVerificationException
-//     */
-//    public function listQuotationsByProvider(Request $request)
-//    {
-//        $provider = $this->providerService->getProviderByToken($request->header('Authorization'), ['id']);
-//        return $this->service->getQuotationsByProvider($provider);
-//    }
+    public function listQuotationsByProvider()
+    {
+        $provider = $this->providerService->getProviderByToken();
+        return $this->service->getQuotationsByProvider($provider);
+    }
 }

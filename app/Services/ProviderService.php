@@ -18,8 +18,8 @@ use App\Repositories\ProviderRepository;
 use App\Repositories\QuotationRepository;
 use App\Services\Traits\CrudMethods;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-//use App\Services\Cognito\CognitoClient;
 
 
 /**
@@ -60,10 +60,6 @@ class ProviderService
      */
     protected $quotationRepository;
 
-//    /**
-//     * @var CognitoClient
-//     */
-//    protected $client;
 
     /**
      * ProviderService constructor.
@@ -73,7 +69,6 @@ class ProviderService
      * @param FidelityRepository $fidelityRepository
      * @param PreProviderRepository $preProviderRepository
      * @param QuotationRepository $quotationRepository
-     * @param CognitoClient $client
      */
     public function __construct(ProviderRepository $repository,
                                 BanksProvidersSegmentRepository $bankRepository,
@@ -81,7 +76,6 @@ class ProviderService
                                 FidelityRepository $fidelityRepository,
                                 PreProviderRepository $preProviderRepository,
                                 QuotationRepository $quotationRepository
-//                                CognitoClient $client)
                                                         )
     {
         $this->repository = $repository;
@@ -90,7 +84,6 @@ class ProviderService
         $this->fidelityRepository = $fidelityRepository;
         $this->preProviderRepository = $preProviderRepository;
         $this->quotationRepository = $quotationRepository;
-//        $this->client = $client;
     }
 
     /**
@@ -109,8 +102,6 @@ class ProviderService
             'name'               => $data['name']
         ];
 
-        $password = $data['password'];
-        $username = $data['email'];
         $data['custom:cpf'] = $data['cpf'];
 
         unset($data['cpf']);
@@ -123,8 +114,6 @@ class ProviderService
                 $this->preProviderRepository->updateOrCreate(['email' => $provider->email], ['register' => true, 'date_register' => $provider->created]);
                 $this->quotationRepository->updateOrCreate(['email' => $provider->email], ['provider_id' => $provider->id]);
 
-//                $sub = $this->client->registerUser($username, $password, $data);
-//                $this->repository->update(['session_id' => $sub], $provider->id);
                 DB::commit();
                 return $provider;
             }
@@ -134,19 +123,11 @@ class ProviderService
         }
     }
 
-//    /**
-//     * @param $accessToken
-//     * @param array $fields
-//     * @return mixed
-//     * @throws \pmill\AwsCognito\Exception\TokenVerificationException
-//     */
-//    public function getProviderByToken($accessToken, $fields = ['*'])
-//    {
-//        $accessToken = trim(str_replace('Bearer', '', $accessToken));
-//        $decoded = $this->client->decodeAccessToken($accessToken);
-//
-//        return Provider::where('session_id', '=', $decoded['sub'])->get($fields)->first();
-//    }
+    public function getProviderByToken()
+    {
+        return Auth::user();
+    }
+
 
     /**
      * @param $id

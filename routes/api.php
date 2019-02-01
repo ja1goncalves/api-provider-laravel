@@ -25,13 +25,13 @@ Route::post('authentication','\Laravel\Passport\Http\Controllers\AccessTokenCont
 Route::post('check-token',       'PreProvidersController@checkToken');
 Route::post('provider-register', 'ProvidersController@store');
 
-Route::group(['middleware' => ['api']], function () {
+Route::group(['middleware' => ['auth:api']], function () {
 
     //Users
 //    Route::get('user-authenticated',     'UsersController@getUserAuthenticated');
 
     //Providers
-//    Route::get('provider-quotations',    'QuotationsController@listQuotationsByProvider');
+    Route::get('provider-quotations',    'QuotationsController@listQuotationsByProvider');
 //    Route::put('provider-update',        'ProvidersController@update');
 //    Route::get('/provider',               'ProvidersController@getProviderData');
 
