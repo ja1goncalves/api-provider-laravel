@@ -1,4 +1,10 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: raylison
+ * Date: 01/02/19
+ * Time: 11:58
+ */
 
 namespace App\Presenters;
 
@@ -6,11 +12,11 @@ use App\Transformers\QuotationTransformer;
 use Prettus\Repository\Presenter\FractalPresenter;
 
 /**
- * Class QuotationPresenter.
+ * Class SegmentPresenter.
  *
  * @package namespace App\Presenters;
  */
-class QuotationPresenter extends FractalPresenter
+class QuotationsPresenter extends FractalPresenter
 {
     /**
      * Transformer
