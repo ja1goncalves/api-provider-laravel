@@ -11,5 +11,5 @@ use Prettus\Repository\Contracts\RepositoryInterface;
  */
 interface PreProviderRepository extends RepositoryInterface
 {
-    public function findByToken($token);
+    //
 }
