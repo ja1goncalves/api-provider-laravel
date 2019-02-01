@@ -36,13 +36,18 @@ class PreProviderRepositoryEloquent extends BaseRepository implements PreProvide
         return PreProviderValidator::class;
     }
 
-
     /**
      * Boot up the repository, pushing criteria
      */
     public function boot()
     {
         $this->pushCriteria(app(RequestCriteria::class));
+    }
+
+    public function findByToken($token)
+    {
+        $query = $this->model->newQuery();
+        return $query->where('token', '=', $token)->get()->first();
     }
     
 }

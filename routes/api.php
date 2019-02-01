@@ -22,7 +22,7 @@ Route::post('authentication','\Laravel\Passport\Http\Controllers\AccessTokenCont
 //Route::post('confirm-register', 'UsersController@confirmSignUp');
 
 ////Pre-Providers
-//Route::post('check-token',       'PreProvidersController@checkToken');
+Route::post('check-token',       'PreProvidersController@checkToken');
 Route::post('provider-register', 'ProvidersController@store');
 
 Route::group(['middleware' => ['api']], function () {
