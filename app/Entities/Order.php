@@ -2,7 +2,6 @@
 
 namespace App\Entities;
 
-use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
@@ -11,7 +10,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  *
  * @package namespace App\Entities;
  */
-class Order extends Model implements Transformable
+class Order extends AppEntity implements Transformable
 {
     use TransformableTrait;
 
@@ -20,6 +19,28 @@ class Order extends Model implements Transformable
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'provider_id',
+        'quotation_id',
+        'program_id',
+        'price',
+        'value',
+        'due_date',
+        'department',
+        'system_creator',
+        'order_status_id',
+        'banks_providers_segment_id',
+        'status_modified',
+    ];
+
+    const STATUS_EM_ANALISE = 8;
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function status()
+    {
+        return $this->belongsTo(OrderStatus::class, 'order_status_id');
+    }
 
 }

@@ -2,7 +2,6 @@
 
 namespace App\Entities;
 
-use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
@@ -11,7 +10,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  *
  * @package namespace App\Entities;
  */
-class Address extends Model implements Transformable
+class Address extends AppEntity implements Transformable
 {
     use TransformableTrait;
 
@@ -20,6 +19,23 @@ class Address extends Model implements Transformable
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = [
+        "zip_code",
+        "address",
+        "number",
+        "complement",
+        "neighborhood",
+        "city",
+        "state",
+        "model",
+        "parent_id"
+    ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function provider()
+    {
+        return $this->belongsTo(Provider::class, 'provider_id', 'id');
+    }
 }

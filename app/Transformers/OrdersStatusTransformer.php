@@ -3,7 +3,7 @@
 namespace App\Transformers;
 
 use League\Fractal\TransformerAbstract;
-use App\Entities\OrdersStatus;
+use App\Entities\OrderStatus;
 
 /**
  * Class OrdersStatusTransformer.
@@ -13,13 +13,13 @@ use App\Entities\OrdersStatus;
 class OrdersStatusTransformer extends TransformerAbstract
 {
     /**
-     * Transform the OrdersStatus entity.
+     * Transform the OrderStatus entity.
      *
-     * @param \App\Entities\OrdersStatus $model
+     * @param \App\Entities\OrderStatus $model
      *
      * @return array
      */
-    public function transform(OrdersStatus $model)
+    public function transform(OrderStatus $model)
     {
         return [
             'id'         => (int) $model->id,

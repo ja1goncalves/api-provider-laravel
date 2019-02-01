@@ -17,7 +17,7 @@ use App\Validators\OrdersStatusValidator;
  *
  * @package namespace App\Http\Controllers;
  */
-class OrdersStatusesController extends Controller
+class OrdersStatusController extends Controller
 {
     /**
      * @var OrdersStatusRepository
@@ -79,7 +79,7 @@ class OrdersStatusesController extends Controller
             $ordersStatus = $this->repository->create($request->all());
 
             $response = [
-                'message' => 'OrdersStatus created.',
+                'message' => 'OrderStatus created.',
                 'data'    => $ordersStatus->toArray(),
             ];
 
@@ -155,7 +155,7 @@ class OrdersStatusesController extends Controller
             $ordersStatus = $this->repository->update($request->all(), $id);
 
             $response = [
-                'message' => 'OrdersStatus updated.',
+                'message' => 'OrderStatus updated.',
                 'data'    => $ordersStatus->toArray(),
             ];
 
@@ -194,11 +194,11 @@ class OrdersStatusesController extends Controller
         if (request()->wantsJson()) {
 
             return response()->json([
-                'message' => 'OrdersStatus deleted.',
+                'message' => 'OrderStatus deleted.',
                 'deleted' => $deleted,
             ]);
         }
 
-        return redirect()->back()->with('message', 'OrdersStatus deleted.');
+        return redirect()->back()->with('message', 'OrderStatus deleted.');
     }
 }

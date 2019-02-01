@@ -2,7 +2,6 @@
 
 namespace App\Entities;
 
-use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
@@ -11,15 +10,36 @@ use Prettus\Repository\Traits\TransformableTrait;
  *
  * @package namespace App\Entities;
  */
-class BanksProvidersSegment extends Model implements Transformable
+class BanksProvidersSegment extends AppEntity implements Transformable
 {
     use TransformableTrait;
+
+    protected $table = 'banks_providers_segments';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = [
+        "bank_id",
+        "type",
+        "segment_id",
+        "agency",
+        "agency_digit",
+        "account",
+        "account_digit",
+        "operation",
+        "main",
+        "provider_id"
+    ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function provider()
+    {
+        return $this->belongsTo(Provider::class);
+    }
 }
+

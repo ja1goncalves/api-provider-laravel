@@ -2,7 +2,6 @@
 
 namespace App\Entities;
 
-use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
@@ -11,9 +10,11 @@ use Prettus\Repository\Traits\TransformableTrait;
  *
  * @package namespace App\Entities;
  */
-class ProgramsQuotation extends Model implements Transformable
+class ProgramsQuotation extends AppEntity implements Transformable
 {
     use TransformableTrait;
+
+    protected $table = 'programs_quotations';
 
     /**
      * The attributes that are mass assignable.
@@ -22,4 +23,11 @@ class ProgramsQuotation extends Model implements Transformable
      */
     protected $fillable = [];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function program()
+    {
+        return $this->belongsTo(Program::class);
+    }
 }
