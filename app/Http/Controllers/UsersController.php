@@ -16,32 +16,32 @@ namespace App\Http\Controllers;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 
-class UserController extends AppController
+class UsersController extends AppController
 {
-//    /**
-//     * @var UserService
-//     */
-//    protected $service;
-//
-//
-//    /**
-//     * UsersController constructor.
-//     * @param UserService $service
-//     */
-//    public function __construct(UserService $service)
-//    {
-//        $this->service  = $service;
-//    }
+    /**
+     * @var UserService
+     */
+    protected $service;
+
+
+    /**
+     * UsersController constructor.
+     * @param UserService $service
+     */
+    public function __construct(UserService $service)
+    {
+        $this->service  = $service;
+    }
 //
 //    /**
 //     * @param Request $request
 //     * @return array
 //     * @throws \Exception
 //     */
-//    public function getUserAuthenticated(Request $request)
-//    {
-//        return $this->service->getUserByToken($request->header('Authorization'));
-//    }
+    public function getUserAuthenticated(Request $request)
+    {
+        return $this->service->getUserByToken();
+    }
 //
 //    /**
 //     * @param UserUpdateRequest $request

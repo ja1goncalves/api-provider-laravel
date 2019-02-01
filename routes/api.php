@@ -28,7 +28,7 @@ Route::post('provider-register', 'ProvidersController@store');
 Route::group(['middleware' => ['auth:api']], function () {
 
     //Users
-//    Route::get('user-authenticated',     'UsersController@getUserAuthenticated');
+    Route::get('user-authenticated',     'UsersController@getUserAuthenticated');
 
     //Providers
     Route::get('provider-quotations',    'QuotationsController@listQuotationsByProvider');

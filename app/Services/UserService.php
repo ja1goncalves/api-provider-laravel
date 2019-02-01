@@ -18,34 +18,26 @@ use App\Repositories\ProviderRepository;
  */
 class UserService
 {
+    /**
+     * @var ProviderRepository
+     */
+    protected $repository;
 
-//    /**
-//     * @var CognitoClient
-//     */
-//    protected $client;
-//
-//    /**
-//     * @var ProviderRepository
-//     */
-//    protected $repository;
-//
-//    /**
-//     * @var ProviderService
-//     */
-//    protected $providerService;
-//
-//    /**
-//     * UserService constructor.
-//     * @param ProviderRepository $repository
-//     * @param CognitoClient $client
-//     * @param ProviderService $providerService
-//     */
-//    public function __construct(ProviderRepository $repository, CognitoClient $client, ProviderService $providerService)
-//    {
-//        $this->repository  = $repository;
-//        $this->client      = $client;
-//        $this->providerService = $providerService;
-//    }
+    /**
+     * @var ProviderService
+     */
+    protected $providerService;
+
+    /**
+     * UserService constructor.
+     * @param ProviderRepository $repository
+     * @param ProviderService $providerService
+     */
+    public function __construct(ProviderRepository $repository, ProviderService $providerService)
+    {
+        $this->repository  = $repository;
+        $this->providerService = $providerService;
+    }
 //
 //    /**
 //     * @param $username
@@ -67,17 +59,18 @@ class UserService
 //        return $user;
 //    }
 //
-//    /**
-//     * @param $accessToken
-//     * @return array
-//     * @throws \Exception
-//     */
-//    public function getUserByToken($accessToken)
-//    {
-//        $user = $this->providerService->getProviderByToken($accessToken, ['id', 'email', 'name', 'cpf']);
-//        if(!$user) throw new UserNotFoundException();
-//        return $user;
-//    }
+
+    public function getUserByToken()
+    {
+        $user = $this->providerService->getProviderByToken();
+        if(!isset($user)){
+            return[
+            "error" => true,
+            "message" => "Usuário não encontrado!"
+        ];
+        }
+        return $user;
+    }
 //
 //    /**
 //     * @param $username
