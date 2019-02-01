@@ -1,4 +1,10 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: raylison
+ * Date: 01/02/19
+ * Time: 10:41
+ */
 
 namespace App\Http\Controllers;
 
@@ -7,7 +13,11 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
-class Controller extends BaseController
+/**
+ * Class AppController
+ * @package App\Http\Controllers
+ */
+abstract class AppController extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 }
