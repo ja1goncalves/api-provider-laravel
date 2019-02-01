@@ -13,7 +13,7 @@ class ProviderCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,18 @@ class ProviderCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "email"    => "required|email|unique:providers",
+            "password" => "required|string|min:8",
+            "name"     => "required|string",
+            "cpf"      => "required|string|unique:providers",
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'required' => 'O campo :attribute é obrigatório!',
+            'unique'   => ':attribute já cadastrado!',
         ];
     }
 }
