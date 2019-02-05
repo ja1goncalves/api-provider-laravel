@@ -18,7 +18,6 @@ class AuthController extends AppController
      */
     protected $service;
 
-
     /**
      * AuthController constructor.
      * @param AuthService $service
