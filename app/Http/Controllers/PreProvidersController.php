@@ -7,31 +7,15 @@ use App\Http\Requests\CheckTokenRequest;
 use App\Services\PreProviderService;
 use App\Validators\PreProviderValidator;
 
-/**
- * Class PreProvidersController.
- *
- * @package namespace App\Http\Controllers;
- */
+
 class PreProvidersController extends Controller
 {
     use CrudMethods;
 
-    /**
-     * @var PreProviderService
-     */
     protected $service;
 
-    /**
-     * @var PreProviderValidator
-     */
     protected $validator;
 
-    /**
-     * PreProvidersController constructor.
-     *
-     * @param PreProviderService $service
-     * @param PreProviderValidator $validator
-     */
     public function __construct(PreProviderService $service, PreProviderValidator $validator)
     {
         $this->service = $service;

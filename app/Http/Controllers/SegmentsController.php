@@ -12,22 +12,10 @@ use App\Validators\SegmentValidator;
  */
 class SegmentsController extends Controller
 {
-    /**
-     * @var SegmentService
-     */
     protected $service;
 
-    /**
-     * @var SegmentValidator
-     */
     protected $validator;
 
-    /**
-     * SegmentsController constructor.
-     *
-     * @param SegmentService $service
-     * @param SegmentValidator $validator
-     */
     public function __construct(SegmentService $service, SegmentValidator $validator)
     {
         $this->service = $service;
