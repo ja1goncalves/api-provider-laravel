@@ -2,104 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Provider;
+use App\Services\PasswordResetService;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
-use App\Notifications\PasswordResetRequest;
-use App\Notifications\PasswordResetSuccess;
-use App\PasswordReset;
 
 class PasswordResetController extends Controller
 {
-    /**
-     * Create token password reset
-     *
-     * @param  [string] email
-     * @return [string] message
-     */
-    public function create(Request $request)
+
+    protected $service;
+
+    public function __construct(PasswordResetService $service)
     {
-        $request->validate([
-            'email' => 'required|string|email',
-        ]);
-        $provider = Provider::where('email', $request->email)->first();
-        if (!$provider)
-            return response()->json(['message' => "We can't find a user with that e-mail address."], 404);
-        $passwordReset = PasswordReset::updateOrCreate(
-            ['email' => $provider->email],
-            [
-                'email' => $provider->email,
-                'token' => str_random(60)
-             ]
-        );
-        if ($provider && $passwordReset)
-            $provider->notify(
-                new PasswordResetRequest($passwordReset->token)
-            );
-        return response()->json([
-            'message' => 'We have e-mailed your password reset link!'
-        ]);
+        $this->service = $service;
     }
 
-    /**
-     * Find token password reset
-     *
-     * @param  [string] $token
-     * @return [string] message
-     * @return [json] passwordReset object
-     */
+    public function create(Request $request)
+    {
+        return $this->service->create($request);
+    }
 
     public function find($token)
     {
-        $passwordReset = PasswordReset::where('token', $token)
-            ->first();
-        if (!$passwordReset)
-            return response()->json([
-                'message' => 'This password reset token is invalid.'
-            ], 404);
-        if (Carbon::parse($passwordReset->updated_at)->addMinutes(720)->isPast()) {
-            $passwordReset->delete();
-            return response()->json([
-                'message' => 'This password reset token is invalid.'
-            ], 404);
-        }
-        return response()->json($passwordReset);
+        return $this->service->find($token);
     }
 
-    /**
-     * Reset password
-     *
-     * @param  [string] email
-     * @param  [string] password
-     * @param  [string] password_confirmation
-     * @param  [string] token
-     * @return [string] message
-     * @return [json] user object
-     */
     public function reset(Request $request)
     {
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string|confirmed',
-            'token' => 'required|string'
-        ]);
-        $passwordReset = PasswordReset::where([
-            ['token', $request->token],
-            ['email', $request->email]
-        ])->first();
-        if (!$passwordReset)
-            return response()->json([
-                'message' => 'This password reset token is invalid.'
-            ], 404);
-        $provider = Provider::where('email', $passwordReset->email)->first();
-        if (!$provider)
-            return response()->json([
-                'message' => "We can't find a user with that e-mail address."
-            ], 404);
-        $provider->password = bcrypt($request->password);
-        $provider->save();
-        $passwordReset->delete();
-        $provider->notify(new PasswordResetSuccess($passwordReset));
-        return response()->json($provider);
+        return $this->service->reset($request);
     }
 }
