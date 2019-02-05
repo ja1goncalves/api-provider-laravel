@@ -9,11 +9,6 @@ use App\Services\ProviderService;
 use App\Validators\ProviderValidator;
 use Illuminate\Http\Request;
 
-/**
- * Class ProvidersController.
- *
- * @package namespace App\Http\Controllers;
- */
 class ProvidersController extends Controller
 {
     use CrudMethods;

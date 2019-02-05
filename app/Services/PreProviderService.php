@@ -36,7 +36,26 @@ class PreProviderService
 
     public function checkToken($token)
     {
-        return $this->repository->findByToken($token);
+
+        try {
+            $preProvider = $this->repository->findByToken($token);;
+
+            if (is_null($preProvider)) {
+                throw new \Exception('Token inválido!');
+            }
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => true,
+                'message' => $e->getMessage()
+            ]);
+        }
+
+        return response()->json([
+            'error' => false,
+            'message' => 'Token válidado com sucesso!',
+            'data' => $preProvider
+        ]);
     }
 
 }
