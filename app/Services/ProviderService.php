@@ -88,11 +88,6 @@ class ProviderService
         $this->quotationRepository = $quotationRepository;
     }
 
-    /**
-     * @param array $data
-     * @return mixed
-     * @throws \Exception
-     */
     public function create2(array $data)
     {
         $now = Carbon::now()->format('Y-m-d H:i');
@@ -102,7 +97,8 @@ class ProviderService
             'status_modified'    => $now,
             'email'              => $data['email'],
             'cpf'                => $data['cpf'],
-            'name'               => $data['name']
+            'name'               => $data['name'],
+            'activation_token'   => str_random(60)
         ];
 
         DB::beginTransaction();
@@ -113,13 +109,22 @@ class ProviderService
                 $this->quotationRepository->updateOrCreate(['email' => $provider->email], ['provider_id' => $provider->id]);
 
                 DB::commit();
-                return $provider;
+
+                $provider->notify(new SignupActivate($provider));
+                return response()->json([
+                    'error' => false,
+                    'message' => "Please check you email"
+                ]);
             }
         } catch (\Exception $e) {
             DB::rollBack();
-            throw $e;
+            return response()->json([
+                'error' => true,
+                'message' => $e->getMessage()
+            ]);
         }
     }
+
 
     public function create(array $data)
     {
@@ -136,14 +141,21 @@ class ProviderService
         DB::beginTransaction();
         try {
             if ($provider = $this->repository->create($providerData)) {
+
                 DB::commit();
 
                 $provider->notify(new SignupActivate($provider));
-                return $provider;
+                return response()->json([
+                    'error' => false,
+                    'message' => "Please check you email"
+                ]);
             }
         } catch (\Exception $e) {
             DB::rollBack();
-            throw $e;
+            return response()->json([
+                'error' => true,
+                'message' => $e->getMessage()
+            ]);
         }
     }
 
@@ -218,7 +230,10 @@ class ProviderService
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            throw $e;
+            return response()->json([
+                'error' => true,
+                'message' => $e->getMessage()
+            ]);
         }
 
         return $this->getProviderData($id);
