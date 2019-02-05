@@ -2,13 +2,14 @@
 
 namespace App\Entities;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use Laravel\Passport\HasApiTokens;
 //use App\Notifications\ResetPasswordNotification;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Provider.
@@ -17,7 +18,23 @@ use Illuminate\Support\Facades\DB;
  */
 class Provider extends Authenticatable implements Transformable
 {
-    use HasApiTokens, Notifiable, TransformableTrait;
+    use HasApiTokens, Notifiable, TransformableTrait, SoftDeletes;
+
+    const CREATED_AT = 'created';
+    const UPDATED_AT = 'modified';
+    const DELETED_AT  = 'deleted';
+
+    const STATUS_ANALISE = 1;
+    const STATUS_AGUARDANDO = 2;
+    const STATUS_PENDENTE = 3;
+    const STATUS_APROVADO = 4;
+    const STATUS_RECUSADO = 5;
+    const STATUS_INDEFINIDO = 6;
+    const STATUS_FRAUDE = 7;
+    const STATUS_POSTECIPADO = 8;
+    const STATUS_DESISTENTE = 9;
+    const STATUS_FINALIZADO = 10;
+    const STATUS_CONTATO_PENDENTE = 11;
 
     /**
      * The attributes that are mass assignable.
@@ -39,28 +56,19 @@ class Provider extends Authenticatable implements Transformable
         'occupation',
         'provider_occupation_id',
         'company',
-        'company_phone'
+        'company_phone',
+        'active',
+        'activation_token'
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
+        'activation_token'
     ];
 
-    const CREATED_AT = 'created';
-    const UPDATED_AT = 'modified';
+    protected $dates = ['deleted'];
 
-    const STATUS_ANALISE = 1;
-    const STATUS_AGUARDANDO = 2;
-    const STATUS_PENDENTE = 3;
-    const STATUS_APROVADO = 4;
-    const STATUS_RECUSADO = 5;
-    const STATUS_INDEFINIDO = 6;
-    const STATUS_FRAUDE = 7;
-    const STATUS_POSTECIPADO = 8;
-    const STATUS_DESISTENTE = 9;
-    const STATUS_FINALIZADO = 10;
-    const STATUS_CONTATO_PENDENTE = 11;
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -86,20 +94,9 @@ class Provider extends Authenticatable implements Transformable
         return $this->hasMany(Fidelity::class, 'provider_id');
     }
 
-//    public function sendPasswordResetNotification($token)
-//    {
-//        $reset = $this->notify(new ResetPasswordNotification($token));
-//        DB::table('password_resets')->where('email', $this->email)->update(['token' => $token]);
-//        if ($reset) {
-//            return [
-//                'erro' => false,
-//                'message' => 'Email enviado!'
-//            ];
-//        }
-//        return [
-//            'erro' => true,
-//            'message' => 'Usuário bloqueado!'
-//        ];
-//    }
+    public function checkMail(){
+        return $this->getAttribute('active');
+    }
+
 
 }

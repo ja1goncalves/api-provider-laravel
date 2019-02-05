@@ -6,6 +6,8 @@ use App\Http\Controllers\Traits\CrudMethods;
 use App\Services\OrderService;
 use App\Services\ProviderService;
 use App\Validators\OrderValidator;
+use Illuminate\Http\Request;
+
 
 /**
  * Class OrdersController.
@@ -40,14 +42,9 @@ class OrdersController extends Controller
         $this->validator  = $validator;
     }
 
-//    /**
-//     * @param Request $request
-//     * @return array
-//     * @throws \pmill\AwsCognito\Exception\TokenVerificationException
-//     */
-//    public function store(Request $request)
-//    {
-//        $provider = $this->providerService->getProviderByToken($request->header('Authorization'));
-//        return $this->service->createOp($request->all(), $provider);
-//    }
+    public function store(Request $request)
+    {
+        $provider = $this->providerService->getProviderByToken();
+        return $this->service->createOp($request->all(), $provider);
+    }
 }

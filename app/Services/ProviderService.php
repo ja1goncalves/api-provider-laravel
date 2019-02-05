@@ -9,6 +9,7 @@
 namespace App\Services;
 
 use App\Entities\Provider;
+use App\Notifications\SignupActivate;
 use App\Presenters\ProviderPresenter;
 use App\Repositories\AddressRepository;
 use App\Repositories\BanksProvidersSegmentRepository;
@@ -29,6 +30,7 @@ use Illuminate\Support\Facades\DB;
 class ProviderService
 {
     use CrudMethods;
+
 
     /**
      * @var ProviderRepository
@@ -91,21 +93,17 @@ class ProviderService
      * @return mixed
      * @throws \Exception
      */
-    public function create(array $data)
+    public function create2(array $data)
     {
         $now = Carbon::now()->format('Y-m-d H:i');
         $providerData = [
             'provider_status_id' => Provider::STATUS_ANALISE,
+            'password'           => bcrypt($data['password']),
             'status_modified'    => $now,
             'email'              => $data['email'],
             'cpf'                => $data['cpf'],
             'name'               => $data['name']
         ];
-
-        $data['custom:cpf'] = $data['cpf'];
-
-        unset($data['cpf']);
-        unset($data['password']);
 
         DB::beginTransaction();
         try {
@@ -122,6 +120,48 @@ class ProviderService
             throw $e;
         }
     }
+
+    public function create(array $data)
+    {
+        $now = Carbon::now()->format('Y-m-d H:i');
+        $providerData = [
+            'provider_status_id' => Provider::STATUS_ANALISE,
+            'password'           => bcrypt($data['password']),
+            'status_modified'    => $now,
+            'email'              => $data['email'],
+            'cpf'                => $data['cpf'],
+            'name'               => $data['name'],
+            'activation_token'   => str_random(60)
+        ];
+        DB::beginTransaction();
+        try {
+            if ($provider = $this->repository->create($providerData)) {
+                DB::commit();
+
+                $provider->notify(new SignupActivate($provider));
+                return $provider;
+            }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+    }
+
+
+    public function signupActivate($token)
+    {
+        $provider = Provider::where('activation_token', $token)->first();
+        if (!$provider) {
+            return response()->json([
+                'message' => 'This activation token is invalid.'
+            ], 404);
+        }
+        $provider->active = true;
+        $provider->activation_token = '';
+        $provider->save();
+        return $provider;
+    }
+
 
     public function getProviderByToken()
     {

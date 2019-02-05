@@ -7,8 +7,10 @@ use App\Http\Controllers\Traits\CrudMethods;
 use App\Http\Requests\ProviderCreateRequest;
 use App\Services\ProviderService;
 use App\Validators\ProviderValidator;
+use Illuminate\Foundation\Auth\RedirectsUsers;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 /**
  * Class ProvidersController.
@@ -18,6 +20,7 @@ use Illuminate\Http\Response;
 class ProvidersController extends Controller
 {
     use CrudMethods;
+    use RedirectsUsers;
 
     /**
      * @var ProviderService
@@ -39,6 +42,7 @@ class ProvidersController extends Controller
     {
         $this->service = $service;
         $this->validator  = $validator;
+        $this->middleware('guest');
     }
 
     /**
@@ -46,29 +50,36 @@ class ProvidersController extends Controller
      * @return mixed
      * @throws \Exception
      */
-    public function store(ProviderCreateRequest $request)
-    {
-        return $this->service->create($request->all());
+    public function store2(ProviderCreateRequest $request)   {
+
+        return $this->service->create2($request->all());
     }
 
-//    /**
-//     * @param Request $request
-//     * @return mixed
-//     * @throws \pmill\AwsCognito\Exception\TokenVerificationException
-//     */
-//    public function getProviderData(Request $request) {
-//        $provider = $this->service->getProviderByToken($request->header('Authorization'), ['id']);
-//        return $this->service->getProviderData($provider->id);
-//    }
-//
-//    /**
-//     * @param Request $request
-//     * @return mixed
-//     * @throws \pmill\AwsCognito\Exception\TokenVerificationException
-//     */
-//    public function update(Request $request)
-//    {
-//        $provider = $this->service->getProviderByToken($request->header('Authorization'), ['id']);
-//        return $this->service->updateProvider($provider->id, $request->all());
-//    }
+    public function getProviderData() {
+        $provider = $this->service->getProviderByToken();
+        return $this->service->getProviderData($provider->id);
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return mixed
+     * @throws \Exception
+     */
+    public function update(Request $request)
+    {
+        $provider = $this->service->getProviderByToken();
+        return $this->service->updateProvider($provider->id, $request->all());
+    }
+
+    public function store(Request $request)
+    {
+        return $provider = $this->service->create($request->all());
+    }
+
+    public function signupActivate($token)
+    {
+        return $this->service->signupActivate($token);
+    }
+
 }
+

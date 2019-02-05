@@ -11,29 +11,41 @@
 |
 */
 
+
 Route::get('/', function () {
     return redirect('/');
 });
-//Authentication Route
-Route::post('authentication','\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken');
 
-//Route::post('password/email',   'UsersController@forgotPassword');
-//Route::post('password/reset',   'UsersController@confirmPasswordReset');
-//Route::post('confirm-register', 'UsersController@confirmSignUp');
+
+//Authentication Route
+Route::post('authentication','\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken')->Middleware('checkEmailVerrification');
+
+
+Route::group([
+    'prefix' => 'password'
+], function () {
+    Route::post('/email', 'PasswordResetController@create');
+    Route::get('find/{token}', 'PasswordResetController@find');
+    Route::post('reset', 'PasswordResetController@reset');
+});
+
 
 ////Pre-Providers
 Route::post('check-token',       'PreProvidersController@checkToken');
-Route::post('provider-register', 'ProvidersController@store');
+Route::post('provider-register', 'ProvidersController@store2');//Cadastro de provider com quotação
+Route::post('providerRegister', 'ProvidersController@store');//Cadastro de provider sem quotação
+
+Route::get('provider/activate/{token}','ProvidersController@signupActivate');//Mudar depois
 
 Route::group(['middleware' => ['auth:api']], function () {
 
     //Users
-    Route::get('user-authenticated',     'UsersController@getUserAuthenticated');
+    Route::get('user-authenticated',     'AuthController@getUserAuthenticated');
 
     //Providers
     Route::get('provider-quotations',    'QuotationsController@listQuotationsByProvider');
-//    Route::put('provider-update',        'ProvidersController@update');
-//    Route::get('/provider',               'ProvidersController@getProviderData');
+    Route::put('provider-update',        'ProvidersController@update');
+    Route::get('/provider',               'ProvidersController@getProviderData');
 
     //Banks
     Route::get('banks',                  'BanksController@listAll');
@@ -43,5 +55,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('programs',               'ProgramsController@index');
 
     //Orders
-//    Route::resource('orders',   'OrdersController', ['except' => ['edit', 'delete', 'index']]);
+    Route::resource('orders',   'OrdersController', ['except' => ['edit', 'delete', 'index']]);
 });
+
+
