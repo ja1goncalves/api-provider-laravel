@@ -8,6 +8,7 @@
 
 namespace App\Services;
 
+use App\Entities\Provider;
 use App\Repositories\ProviderRepository;
 
 
