@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use App\Repositories\SegmentRepository;
 use App\Entities\Segment;
 use App\Validators\SegmentValidator;
 

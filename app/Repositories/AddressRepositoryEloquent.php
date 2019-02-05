@@ -4,9 +4,7 @@ namespace App\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use App\Repositories\AddressRepository;
 use App\Entities\Address;
-use App\Validators\AddressValidator;
 
 /**
  * Class AddressRepositoryEloquent.
@@ -33,7 +31,6 @@ class AddressRepositoryEloquent extends BaseRepository implements AddressReposit
     public function validator()
     {
 
-        return AddressValidator::class;
     }
 
 

@@ -4,9 +4,8 @@ namespace App\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use App\Repositories\BanksProvidersSegmentRepository;
 use App\Entities\BanksProvidersSegment;
-use App\Validators\BanksProvidersSegmentValidator;
+
 
 /**
  * Class BanksProvidersSegmentRepositoryEloquent.
@@ -33,7 +32,6 @@ class BanksProvidersSegmentRepositoryEloquent extends BaseRepository implements 
     public function validator()
     {
 
-        return BanksProvidersSegmentValidator::class;
     }
 
 

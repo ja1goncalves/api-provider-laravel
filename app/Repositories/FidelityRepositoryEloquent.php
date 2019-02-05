@@ -4,9 +4,7 @@ namespace App\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use App\Repositories\FidelityRepository;
 use App\Entities\Fidelity;
-use App\Validators\FidelityValidator;
 
 /**
  * Class FidelityRepositoryEloquent.
@@ -33,7 +31,6 @@ class FidelityRepositoryEloquent extends BaseRepository implements FidelityRepos
     public function validator()
     {
 
-        return FidelityValidator::class;
     }
 
 

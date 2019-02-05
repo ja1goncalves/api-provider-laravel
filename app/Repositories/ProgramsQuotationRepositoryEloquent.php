@@ -4,9 +4,7 @@ namespace App\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use App\Repositories\ProgramsQuotationRepository;
 use App\Entities\ProgramsQuotation;
-use App\Validators\ProgramsQuotationValidator;
 
 /**
  * Class ProgramsQuotationRepositoryEloquent.
@@ -33,7 +31,6 @@ class ProgramsQuotationRepositoryEloquent extends BaseRepository implements Prog
     public function validator()
     {
 
-        return ProgramsQuotationValidator::class;
     }
 
 

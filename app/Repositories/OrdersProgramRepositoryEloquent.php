@@ -4,9 +4,8 @@ namespace App\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use App\Repositories\OrdersProgramRepository;
 use App\Entities\OrdersProgram;
-use App\Validators\OrdersProgramValidator;
+
 
 /**
  * Class OrdersProgramRepositoryEloquent.
@@ -33,7 +32,6 @@ class OrdersProgramRepositoryEloquent extends BaseRepository implements OrdersPr
     public function validator()
     {
 
-        return OrdersProgramValidator::class;
     }
 
 
