@@ -2,11 +2,9 @@
 
 namespace App\Entities;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use Laravel\Passport\HasApiTokens;
-//use App\Notifications\ResetPasswordNotification;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -97,6 +95,4 @@ class Provider extends Authenticatable implements Transformable
     public function checkMail(){
         return $this->getAttribute('active');
     }
-
-
 }
