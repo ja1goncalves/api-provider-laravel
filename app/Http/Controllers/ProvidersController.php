@@ -8,8 +8,6 @@ use App\Http\Requests\ProviderCreateRequest;
 use App\Services\ProviderService;
 use App\Validators\ProviderValidator;
 use Illuminate\Foundation\Auth\RedirectsUsers;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 
 /**
@@ -55,6 +53,11 @@ class ProvidersController extends Controller
         return $this->service->create2($request->all());
     }
 
+    public function store(ProviderCreateRequest $request)
+    {
+        return $provider = $this->service->create($request->all());
+    }
+    
     public function getProviderData() {
         $provider = $this->service->getProviderByToken();
         return $this->service->getProviderData($provider->id);
@@ -69,11 +72,6 @@ class ProvidersController extends Controller
     {
         $provider = $this->service->getProviderByToken();
         return $this->service->updateProvider($provider->id, $request->all());
-    }
-
-    public function store(Request $request)
-    {
-        return $provider = $this->service->create($request->all());
     }
 
     public function signupActivate($token)

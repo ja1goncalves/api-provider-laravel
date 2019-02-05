@@ -60,4 +60,18 @@ class AuthService
             "message" => "Cadastro confirmado com sucesso!",
         ];
     }
+
+    public function signupActivate($token)
+    {
+        $provider = Provider::where('activation_token', $token)->first();
+        if (!$provider) {
+            return response()->json([
+                'message' => 'This activation token is invalid.'
+            ], 404);
+        }
+        $provider->active = true;
+        $provider->activation_token = '';
+        $provider->save();
+        return $provider;
+    }
 }

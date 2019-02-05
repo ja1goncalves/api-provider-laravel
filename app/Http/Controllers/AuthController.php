@@ -41,4 +41,9 @@ class AuthController extends AppController
     {
         return $this->service->sendConfirmSignUp();
     }
+
+    public function signupActivate($token)
+    {
+        return $this->service->signupActivate($token);
+    }
 }

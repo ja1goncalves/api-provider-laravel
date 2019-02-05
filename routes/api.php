@@ -19,8 +19,9 @@ Route::get('/', function () {
 
 //Authentication Route
 Route::post('authentication','\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken')->Middleware('checkEmailVerrification');
+Route::get('provider/activate/{token}','AuthController@signupActivate');
 
-
+//Password Manager
 Route::group([
     'prefix' => 'password'
 ], function () {
@@ -35,8 +36,8 @@ Route::post('check-token',       'PreProvidersController@checkToken');
 Route::post('provider-register', 'ProvidersController@store2');//Cadastro de provider com quotação
 Route::post('providerRegister', 'ProvidersController@store');//Cadastro de provider sem quotação
 
-Route::get('provider/activate/{token}','ProvidersController@signupActivate');//Mudar depois
 
+//Routes Autenticadas
 Route::group(['middleware' => ['auth:api']], function () {
 
     //Users
