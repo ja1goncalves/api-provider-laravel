@@ -12,7 +12,6 @@ use App\Presenters\BankPresenter;
 use App\Repositories\BankRepository;
 use App\Services\Traits\CrudMethods;
 
-
 /**
  * Class BankService
  * @package App\Services
