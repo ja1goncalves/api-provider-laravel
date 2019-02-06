@@ -18,8 +18,8 @@ Route::get('/', function () {
 
 
 //Authentication Route
-Route::post('authentication','\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken')->Middleware('checkEmailVerrification');
-Route::get('provider/activate/{token}','AuthController@signupActivate');
+Route::post('authentication','\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken')->Middleware('checkEmailVerrification');//Login de usuario
+Route::get('provider/activate/{token}','AuthController@signupActivate');//Ativação de usuario via token em email.
 
 //Password Manager
 Route::group([

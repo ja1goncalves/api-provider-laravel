@@ -73,6 +73,6 @@ class AuthService
         $provider->active = true;
         $provider->activation_token = '';
         $provider->save();
-        return $provider;
+        return $this->sendConfirmSignUp();
     }
 }

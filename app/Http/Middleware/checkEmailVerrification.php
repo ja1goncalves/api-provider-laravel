@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use App\Entities\Provider;
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
 class checkEmailVerrification
 {
@@ -16,13 +16,17 @@ class checkEmailVerrification
      */
     public function handle($request, Closure $next)
     {
-        $checkMail = Provider::where('email',$request->all()['username'])->first()->checkMail();
-        if ($checkMail)
-            return $next($request);
-        else{
-            return response()->json([
-                'message' => 'Unauthorized, not validated email'
-            ], 401);
-        }
+            $credentials['email'] = $request->username;
+            $credentials['password'] = $request->password;
+            $credentials['active'] = 1;
+            $credentials['deleted'] = null;
+
+            if(!Auth::attempt($credentials)) {
+                return response()->json([
+                    'message' => 'Unauthorized, user not activated'
+                ], 401);
+            }else
+                return $next($request);
     }
 }
+
