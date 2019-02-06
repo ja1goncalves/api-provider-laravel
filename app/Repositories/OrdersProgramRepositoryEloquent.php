@@ -37,6 +37,7 @@ class OrdersProgramRepositoryEloquent extends BaseRepository implements OrdersPr
 
     /**
      * Boot up the repository, pushing criteria
+     * @throws \Prettus\Repository\Exceptions\RepositoryException
      */
     public function boot()
     {

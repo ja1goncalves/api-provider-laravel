@@ -36,6 +36,7 @@ class AddressRepositoryEloquent extends BaseRepository implements AddressReposit
 
     /**
      * Boot up the repository, pushing criteria
+     * @throws \Prettus\Repository\Exceptions\RepositoryException
      */
     public function boot()
     {

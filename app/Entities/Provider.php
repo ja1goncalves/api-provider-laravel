@@ -91,8 +91,4 @@ class Provider extends Authenticatable implements Transformable
     {
         return $this->hasMany(Fidelity::class, 'provider_id');
     }
-
-    public function checkMail(){
-        return $this->getAttribute('active');
-    }
 }

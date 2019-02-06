@@ -38,6 +38,7 @@ class BankRepositoryEloquent extends BaseRepository implements BankRepository
 
     /**
      * Boot up the repository, pushing criteria
+     * @throws \Prettus\Repository\Exceptions\RepositoryException
      */
     public function boot()
     {

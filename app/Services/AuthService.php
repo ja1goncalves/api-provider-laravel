@@ -64,15 +64,19 @@ class AuthService
 
     public function signupActivate($token)
     {
-        $provider = Provider::where('activation_token', $token)->first();
+        $provider = $this->repository->findByField('activation_token', $token)->first();
         if (!$provider) {
             return response()->json([
                 'message' => 'This activation token is invalid.'
             ], 404);
         }
-        $provider->active = true;
-        $provider->activation_token = '';
-        $provider->save();
+        $providerData = [
+            'active'             => true,
+            'activation_token'   => '',
+        ];
+
+        $this->repository->update($providerData,$provider->id);
+
         return $this->sendConfirmSignUp();
     }
 }
