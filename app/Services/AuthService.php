@@ -8,10 +8,7 @@
 
 namespace App\Services;
 
-use App\Entities\Provider;
 use App\Repositories\ProviderRepository;
-
-
 
 /**
  * Class ProviderService
@@ -78,5 +75,24 @@ class AuthService
         $this->repository->update($providerData,$provider->id);
 
         return $this->sendConfirmSignUp();
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout()
+    {
+        $provider = $this->getUserByToken();
+        if (isset($provider)) {
+            $provider->token()->revoke();
+            return response()->json([
+                'erro'    => 'false',
+                'message' => 'Successfully logged out'
+            ]);
+        }
+        return response()->json([
+            'erro'    => 'true',
+            'message' => 'User not found'
+        ]);
     }
 }

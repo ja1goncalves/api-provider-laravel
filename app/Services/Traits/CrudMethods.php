@@ -85,20 +85,4 @@ trait CrudMethods
         $this->repository->delete($id);
         return ['error' => false];
     }
-
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param $id
-     * @return array
-     */
-    public function forceDelete($id)
-    {
-        return [
-            'data' => $this->repository->delete($id)
-        ];
-
-    }
-
 }

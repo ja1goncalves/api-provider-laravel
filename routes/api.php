@@ -21,6 +21,7 @@ Route::get('/', function () {
 Route::post('authentication','\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken')->Middleware('checkEmailVerrification');//Login de usuario
 Route::get('provider/activate/{token}','AuthController@signupActivate');//Ativação de usuario via token em email.
 
+
 //Password Manager
 Route::group([
     'prefix' => 'password'
@@ -42,6 +43,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     //Users
     Route::get('user-authenticated',     'AuthController@getUserAuthenticated');
+    Route::get('logout', 'AuthController@logout');
 
     //Providers
     Route::get('provider-quotations',    'QuotationsController@listQuotationsByProvider');
