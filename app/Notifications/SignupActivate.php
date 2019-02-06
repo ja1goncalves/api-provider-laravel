@@ -4,19 +4,17 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
 class SignupActivate extends Notification
 {
     use Queueable;
 
-
-
+    protected $entity;
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param $entity
      */
     public function __construct($entity)
     {
