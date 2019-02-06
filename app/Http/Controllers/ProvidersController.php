@@ -21,7 +21,6 @@ class ProvidersController extends Controller
     {
         $this->service = $service;
         $this->validator  = $validator;
-        $this->middleware('guest');
     }
 
     public function store2(ProviderCreateRequest $request)   {
@@ -36,14 +35,31 @@ class ProvidersController extends Controller
 
     public function getProviderData() {
         $provider = $this->service->getProviderByToken();
-        return $this->service->getProviderData($provider->id);
+        if (isset($provider->id)) {
+            return $this->service->getProviderData($provider->id);
+        }else{
+            return response()->json([
+                'error' => true,
+                'message' => "User not found"
+            ]);
+        }
     }
 
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse|mixed
+     * @throws \Exception
+     */
     public function update(Request $request)
     {
         $provider = $this->service->getProviderByToken();
-        return $this->service->updateProvider($provider->id, $request->all());
+        if (isset($provider->id)) {
+            return $this->service->updateProvider($provider->id, $request->all());
+        }else{
+            return response()->json([
+                'error' => true,
+                'message' => "User not found"
+            ]);
+        }
     }
-
 }
-

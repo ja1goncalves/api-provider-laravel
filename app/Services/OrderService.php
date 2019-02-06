@@ -96,7 +96,10 @@ class OrderService
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            throw $e;
+            return response()->json([
+                'error' => true,
+                'message' => $e->getMessage()
+            ]);
         }
 
         return $orders;

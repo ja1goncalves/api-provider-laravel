@@ -15,7 +15,6 @@ class BanksController extends Controller
 
     protected $validator;
 
-
     public function __construct(BankService $service, BankValidator $validator)
     {
         $this->service = $service;

@@ -12,9 +12,7 @@ class OrdersController extends Controller
 {
     use CrudMethods;
 
-
     protected $providerService;
-
 
     protected $validator;
 
@@ -25,6 +23,11 @@ class OrdersController extends Controller
         $this->validator  = $validator;
     }
 
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return array
+     * @throws \Exception
+     */
     public function store(Request $request)
     {
         $provider = $this->providerService->getProviderByToken();
