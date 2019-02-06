@@ -26,8 +26,6 @@ class OrdersProgramRepositoryEloquent extends BaseRepository implements OrdersPr
 
     /**
     * Specify Validator class name
-    *
-    * @return mixed
     */
     public function validator()
     {

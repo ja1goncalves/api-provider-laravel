@@ -26,8 +26,6 @@ class BanksProvidersSegmentRepositoryEloquent extends BaseRepository implements 
 
     /**
     * Specify Validator class name
-    *
-    * @return mixed
     */
     public function validator()
     {

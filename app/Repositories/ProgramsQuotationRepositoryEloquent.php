@@ -25,8 +25,6 @@ class ProgramsQuotationRepositoryEloquent extends BaseRepository implements Prog
 
     /**
     * Specify Validator class name
-    *
-    * @return mixed
     */
     public function validator()
     {

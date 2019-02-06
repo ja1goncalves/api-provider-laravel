@@ -25,8 +25,6 @@ class OrdersStatusRepositoryEloquent extends BaseRepository implements OrdersSta
 
     /**
     * Specify Validator class name
-    *
-    * @return mixed
     */
     public function validator()
     {

@@ -25,8 +25,6 @@ class FidelityRepositoryEloquent extends BaseRepository implements FidelityRepos
 
     /**
     * Specify Validator class name
-    *
-    * @return mixed
     */
     public function validator()
     {

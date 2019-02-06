@@ -25,8 +25,6 @@ class AddressRepositoryEloquent extends BaseRepository implements AddressReposit
 
     /**
     * Specify Validator class name
-    *
-    * @return mixed
     */
     public function validator()
     {
