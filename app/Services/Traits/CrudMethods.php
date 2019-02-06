@@ -86,18 +86,6 @@ trait CrudMethods
         return ['error' => false];
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param $id
-     * @return array
-     */
-    public function restore($id)
-    {
-        $this->repository->restore($id);
-        return ['error' => false];
-    }
-
 
     /**
      * Remove the specified resource from storage.
