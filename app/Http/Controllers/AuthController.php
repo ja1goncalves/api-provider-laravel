@@ -34,7 +34,7 @@ class AuthController extends AppController
         return $this->service->signupActivate($token);
     }
 
-    public function logout(){
-        return $this->service->logout();
+    public function destroyToken(){
+        return $this->service->destroyToken();
     }
 }

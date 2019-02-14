@@ -80,7 +80,7 @@ class AuthService
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function logout()
+    public function destroyToken()
     {
         $provider = $this->getUserByToken();
         if (isset($provider)) {

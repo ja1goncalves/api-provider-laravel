@@ -36,5 +36,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(\App\Repositories\ProviderRepository::class, \App\Repositories\ProviderRepositoryEloquent::class);
         $this->app->bind(\App\Repositories\QuotationRepository::class, \App\Repositories\QuotationRepositoryEloquent::class);
         $this->app->bind(\App\Repositories\SegmentRepository::class, \App\Repositories\SegmentRepositoryEloquent::class);
+        $this->app->bind(\App\Repositories\PasswordResetRepository::class, \App\Repositories\PasswordResetRepositoryEloquent::class);
     }
 }
