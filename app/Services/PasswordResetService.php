@@ -8,81 +8,102 @@
 
 namespace App\Services;
 
-use App\Entities\Provider;
-use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Notifications\PasswordResetRequest;
 use App\Notifications\PasswordResetSuccess;
-use App\PasswordReset;
+use App\Repositories\PasswordResetRepository;
+use App\Repositories\ProviderRepository;
 
 class PasswordResetService
 {
 
-    public function create(Request $request)
+    protected $repositoryProvider;
+
+    protected $repositoryPasswordReset;
+
+    /**
+     * @param ProviderRepository $providerRepository
+     * @param PasswordResetRepository $passwordResetRepository
+     */
+    public function __construct(ProviderRepository $providerRepository, PasswordResetRepository $passwordResetRepository)
     {
-        $request->validate([
-            'email' => 'required|string|email',
-        ]);
-        $provider = Provider::where('email', $request->email)->first();
-        if (!$provider)
-            return response()->json(['message' => "We can't find a user with that e-mail address."], 404);
-        $passwordReset = PasswordReset::updateOrCreate(
-            ['email' => $provider->email],
-            [
-                'email' => $provider->email,
-                'token' => str_random(60)
-            ]
-        );
-        if ($provider && $passwordReset)
-            $provider->notify(
-                new PasswordResetRequest($passwordReset->token)
+        $this->repositoryProvider = $providerRepository;
+        $this->repositoryPasswordReset = $passwordResetRepository;
+    }
+
+    public function create($request)
+    {
+        try{
+
+            $provider = $this->repositoryProvider->skipPresenter()->findByField('email',$request->email)->first();
+            $passwordReset = $this->repositoryPasswordReset->updateOrCreate(
+                [   'email' => $provider->email],
+                [
+                    'email' => $provider->email,
+                    'token' => str_random(60)
+                ]
             );
-        return response()->json([
-            'message' => 'We have e-mailed your password reset link!'
-        ]);
+            if (isset($provider) && isset($passwordReset))
+                $provider->notify( new PasswordResetRequest($passwordReset->token));
+            return response()->json([
+                'message' => 'We have e-mailed your password reset link!'
+            ]);
+        }catch (\Exception $e){
+            return response()->json(['message' => "We can't find a user with that e-mail address."], 404);
+        }
+
     }
 
     public function find($token)
     {
-        $passwordReset = PasswordReset::where('token', $token)
-            ->first();
+        $passwordReset = $this->repositoryPasswordReset->findByField('token', $token)->first();
+
         if (!$passwordReset)
             return response()->json([
                 'message' => 'This password reset token is invalid.'
             ], 404);
-        if (Carbon::parse($passwordReset->updated_at)->addMinutes(720)->isPast()) {
-            $passwordReset->delete();
+
+        if (Carbon::parse($passwordReset->updated_at)->addMinutes(60)->isPast()) {
+
+            $this->repositoryPasswordReset->delete($passwordReset->id);
+
             return response()->json([
-                'message' => 'This password reset token is invalid.'
+                'message' => 'This password reset token expired.'
             ], 404);
         }
+
         return response()->json($passwordReset);
     }
 
-    public function reset(Request $request)
+    public function reset($request)
     {
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string|confirmed',
-            'token' => 'required|string'
-        ]);
-        $passwordReset = PasswordReset::where([
-            ['token', $request->token],
-            ['email', $request->email]
-        ])->first();
+        $where =[
+            'token' => $request->token,
+            'email' => $request->email
+        ];
+        $passwordReset = $this->repositoryPasswordReset->skipPresenter()->findWhere($where)->first();
         if (!$passwordReset)
             return response()->json([
                 'message' => 'This password reset token is invalid.'
             ], 404);
-        $provider = Provider::where('email', $passwordReset->email)->first();
-        if (!$provider)
+
+        $provider = $this->repositoryProvider->findByField('email', $passwordReset->email)['data'][0];
+
+        if (!isset($provider)) {
+
             return response()->json([
                 'message' => "We can't find a user with that e-mail address."
             ], 404);
-        $provider->password = bcrypt($request->password);
-        $provider->save();
-        $passwordReset->delete();
-        $provider->notify(new PasswordResetSuccess($passwordReset));
-        return response()->json($provider);
+        }
+
+        $provider['password'] = bcrypt($request->password);
+        $this->repositoryProvider->update($provider,$provider['id']);
+
+        $passwordReset->notify(new PasswordResetSuccess());
+        $this->repositoryPasswordReset->delete($passwordReset->id);
+
+        return response()->json([
+            'message' => 'This password reset success .'
+        ], 200);
     }
 }

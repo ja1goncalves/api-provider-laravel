@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PasswordConfirmationRequest;
+use App\Http\Requests\PasswordCreateRequest;
 use App\Services\PasswordResetService;
-use Illuminate\Http\Request;
 
 class PasswordResetController extends Controller
 {
@@ -15,7 +16,7 @@ class PasswordResetController extends Controller
         $this->service = $service;
     }
 
-    public function create(Request $request)
+    public function create(PasswordCreateRequest $request)
     {
         return $this->service->create($request);
     }
@@ -25,7 +26,7 @@ class PasswordResetController extends Controller
         return $this->service->find($token);
     }
 
-    public function reset(Request $request)
+    public function reset(PasswordConfirmationRequest $request)
     {
         return $this->service->reset($request);
     }
