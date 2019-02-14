@@ -24,13 +24,13 @@ class checkEmailVerrification
 
             if (!Auth::attempt($credentials)) {
                 return response()->json([
-                    'message' => 'User not authorized.'
+                    'message' => 'Unauthorized, user not activated'
                 ], 401);
             } else
                 return $next($request);
         }else {
             return response()->json([
-                'message' => 'Unauthorized, user not activated'
+                'message' => 'User not authorized.'
             ], 401);
         }
     }

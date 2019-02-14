@@ -56,6 +56,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     //Programs
     Route::get('programs',               'ProgramsController@index');
+    Route::get('programs/{id}',          'ProgramsController@show');
 
     //Orders
     Route::resource('orders',   'OrdersController', ['except' => ['edit', 'delete', 'index']]);

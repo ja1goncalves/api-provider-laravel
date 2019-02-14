@@ -30,7 +30,7 @@ class ProviderTransformer extends TransformerAbstract
                 "occupation"    => $model->occupation,
                 "company"       => $model->company,
                 "company_phone" => $model->company_phone,
-                "provider_ocuppation_id" => $model->provider_occupation_id
+                "provider_occupation_id" => $model->provider_occupation_id
             ],
             "address"    => $this->getAddress($model),
             "fidelities" => $this->getFidelities($model),
