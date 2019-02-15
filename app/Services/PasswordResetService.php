@@ -81,14 +81,15 @@ class PasswordResetService
             'token' => $request->token,
             'email' => $request->email
         ];
+
+
         $passwordReset = $this->repositoryPasswordReset->skipPresenter()->findWhere($where)->first();
         if (!$passwordReset)
             return response()->json([
                 'message' => 'This password reset token is invalid.'
             ], 404);
 
-        $provider = $this->repositoryProvider->findByField('email', $passwordReset->email)['data'][0];
-
+        $provider = $this->repositoryProvider->findByField('email', $passwordReset->email)->first();
         if (!isset($provider)) {
 
             return response()->json([
@@ -96,8 +97,11 @@ class PasswordResetService
             ], 404);
         }
 
-        $provider['password'] = bcrypt($request->password);
-        $this->repositoryProvider->update($provider,$provider['id']);
+        $providerdata = [
+            'password' => bcrypt($request->password)
+        ];
+
+        $this->repositoryProvider->update($providerdata,$provider->id);
 
         $passwordReset->notify(new PasswordResetSuccess());
         $this->repositoryPasswordReset->delete($passwordReset->id);
