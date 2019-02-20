@@ -59,15 +59,53 @@ class OrderService
     public function createOp(array $data, $provider)
     {
         $orders = [];
-
         DB::beginTransaction();
         try {
 
-            foreach ($data['orders_programs'] as $key => $op) {
+//            foreach ($data['orders'] as $key => $op) {
+//
+//                $order = ($op['orders_programs'][0]);
+//
+//                $data = [
+//                    'provider_id'  => $provider->id,
+//                    'quotation_id' => $data['quotation_id'],
+//                    'program_id'   => $order['id'],
+//                    'price'    => $order['price'],
+//                    'value'    => $order['value'],
+//                    'due_date' => Carbon::now()->addDay(1)->format('Y-m-d'),
+//                    'department'      => 1,
+//                    'system_creator'  => 2,
+//                    'status_modified' => Carbon::now()->format('Y-m-d H:i'),
+//                    'order_status_id' => Order::STATUS_EM_ANALISE,
+//                    'banks_providers_segment_id' => null,
+//                ];
+//
+//                $order = $this->repository->create($data);
+//
+//                foreach ($op['orders_programs'] as $key => $ops){
+//                    dd($ops);
+//                }
+//
+//                $orderProgram = [
+//                    'order_id'   => $order->id,
+//                    'program_id' => $op['id'],
+//                    'number'     => $op['number'],
+//                    'file'       => $op['file'] ? $this->fileService->uploadBase64Image($op['file']) : '',
+//                    'access_password' => $op['access_password'] ?? null
+//                ];
+//                $orderProgram = $this->orderProgramsRepository->create($orderProgram);
+//
+//
+//                $order[] = 'orders_programs' = $orderProgram;
+//                $orders[] = $order;
+//            }
+
+            foreach ($data['orders'] as $key => $op) {
+
                 $data = [
                     'provider_id'  => $provider->id,
                     'quotation_id' => $data['quotation_id'],
-                    'program_id'   => $op['id'],
+                    'program_id'   => $op['program_id'],
                     'price'    => $op['price'],
                     'value'    => $op['value'],
                     'due_date' => Carbon::now()->addDay(1)->format('Y-m-d'),
@@ -79,17 +117,22 @@ class OrderService
                 ];
 
                 $order = $this->repository->create($data);
+                $ordersPrograms = [];
 
-                $orderProgram = [
-                    'order_id'   => $order->id,
-                    'program_id' => $op['id'],
-                    'number'     => $op['number'],
-                    'file'       => $op['file'] ? $this->fileService->uploadBase64Image($op['file']) : '',
-                    'access_password' => $op['access_password'] ?? null
-                ];
+                foreach($op['files'] as $file){
+                    $order_program = [
+                        'order_id'   => $order->id,
+                        'program_id' => $op['program_id'],
+                        'number'     => $op['number'],
+                        'file'       => $op['file'] ? $this->fileService->uploadBase64Image($op['file']) : '',
+                        'access_password' => $op['access_password'] ?? null,
+                        'file_dir'	 => $file ? $file['name'] : null
+                    ];
 
-                $orderProgram = $this->orderProgramsRepository->create($orderProgram);
-                $order->orders_programs = $orderProgram;
+                    $ordersPrograms[] = $this->orderProgramsRepository->create($order_program);
+                }
+
+                $order['$orders_programs'] = $ordersPrograms;
                 $orders[] = $order;
             }
 
