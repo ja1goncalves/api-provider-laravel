@@ -76,7 +76,7 @@ class FileService
      */
     public function uploadBase64Image($file)
     {
-        $fileName = self::generateName(self::getExtensionByMimetype($file['filetype']));
+        $fileName = self::generateName(self::getExtensionByMimetype($file['type']));
 
         if (!Storage::disk('s3')->put($this->defaultPath . $fileName, base64_decode($file['value']))) {
             throw new UploadException();

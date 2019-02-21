@@ -61,7 +61,6 @@ class OrderService
         $orders = [];
         DB::beginTransaction();
         try {
-
             foreach ($data['orders'] as $key => $op) {
 
                 $data = [
@@ -80,13 +79,13 @@ class OrderService
 
                 $order = $this->repository->create($data);
                 $ordersPrograms = [];
-
                 foreach($op['files'] as $file){
+
                     $order_program = [
                         'order_id'   => $order->id,
                         'program_id' => $op['program_id'],
                         'number'     => $op['number'],
-                        'file'       => $op['file'] ? $this->fileService->uploadBase64Image($op['file']) : '',
+                        'file'       => $file ? $this->fileService->uploadBase64Image($file) : '',
                         'access_password' => $op['access_password'] ?? null,
                         'file_dir'	 => $file ? $file['name'] : null
                     ];
