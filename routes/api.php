@@ -13,7 +13,7 @@ Route::get('/', function () {
 Route::group(['prefix' => 'provider'], function () {
 
     //Authentication Route
-    Route::post('oauth/token',              '\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken')->Middleware('checkEmailVerrification');//Login de usuario.
+    Route::post('oauth/token',              '\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken')/*->Middleware('checkEmailVerrification')*/;//Login de usuario.
     Route::get('activate/{token}',          'AuthController@signupActivate');//Ativação de usuario via token em email.
 
 
