@@ -13,12 +13,14 @@ class PasswordReset extends Migration
      */
     public function up()
     {
-        Schema::create('password_resets', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('email')->index();
-            $table->string('token');
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('password_resets')) {
+            Schema::create('password_resets', function (Blueprint $table) {
+                $table->increments('id');
+                $table->string('email')->index();
+                $table->string('token');
+                $table->timestamps();
+            });
+        }
     }
 
     /**
