@@ -36,28 +36,31 @@ Route::group(['prefix' => 'provider'], function () {
     Route::group(['middleware' => ['auth:api']], function () {
 
         //Auth
-        Route::get('auth-authenticated',    'AuthController@getUserAuthenticated');//Pega o usuario logado.
-        Route::delete('oauth/tokens',       'AuthController@destroyToken');//Faz logoff no sistema invalidado o token.
+        Route::get('auth-authenticated',        'AuthController@getUserAuthenticated');//Pega o usuario logado.
+        Route::delete('oauth/tokens',           'AuthController@destroyToken');//Faz logoff no sistema invalidado o token.
 
         //Providers
-        Route::put('update',                'ProvidersController@update');// Atualiza Provider.
-        Route::get('data',                  'ProvidersController@getProviderData');// Retorno todos os dados do Provider.
+        Route::put('update',                    'ProvidersController@update');// Atualiza Provider.
+        Route::get('data',                      'ProvidersController@getProviderData');// Retorno todos os dados do Provider.
 
         //Quotations
-        Route::get('quotations',            'QuotationsController@listQuotationsByProvider');// Lista as quotações de um provider.
+        Route::get('quotations',                'QuotationsController@listQuotationsByProvider');// Lista as quotações de um provider.
 
         //Banks
-        Route::get('banks',                 'BanksController@listAll');// Retorna os bancos.
+        Route::get('banks',                     'BanksController@listAll');// Retorna os bancos.
+
+        //Fidelities
+        Route::get('fidelities', 'ProvidersController@getProviderFidelities');// Retorna os fidelidades do fornecedor.
 
         //Segments
-        Route::get('segments/{bank_id}',    'SegmentsController@listByBank');// Retorna um banco.
+        Route::get('segments/{bank_id}',        'SegmentsController@listByBank');// Retorna um banco.
 
         //Programs
-        Route::get('programs',              'ProgramsController@index');// Retorna os Programs.
-        Route::get('programs/{id}',         'ProgramsController@show');// Retorna um Program.
+        Route::get('programs',                  'ProgramsController@index');// Retorna os Programs.
+        Route::get('programs/{id}',             'ProgramsController@show');// Retorna um Program.
 
         //Orders
-        Route::resource('orders',           'OrdersController', ['except' => ['edit', 'delete', 'index']]);// Crud de orders
+        Route::resource('orders',               'OrdersController', ['except' => ['edit', 'delete', 'index']]);// Crud de orders
     });
 });
 

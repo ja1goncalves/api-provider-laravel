@@ -181,6 +181,20 @@ class ProviderService
     }
 
     /**
+     * @param $quotation_id
+     * @return mixed
+     */
+    public function getProviderFidelities($id)
+    {
+        $provider = $this->repository
+            ->setPresenter(ProviderPresenter::class)
+            ->with('fidelities')
+            ->find($id);
+
+        return $provider['data']['fidelities'];
+    }
+
+    /**
      * @param $id
      * @param array $data
      * @return mixed
