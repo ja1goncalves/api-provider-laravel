@@ -61,12 +61,12 @@ class OrderService
         $orders = [];
         DB::beginTransaction();
         try {
-            foreach ($data['orders'] as $key => $op) {
+            foreach ($data['orders_programs'] as $key => $op) {
 
                 $data = [
                     'provider_id'  => $provider->id,
                     'quotation_id' => $data['quotation_id'],
-                    'program_id'   => $op['program_id'],
+                    'program_id'   => $op['id'], // program_id
                     'price'    => $op['price'],
                     'value'    => $op['value'],
                     'due_date' => Carbon::now()->addDay(1)->format('Y-m-d'),
@@ -83,9 +83,10 @@ class OrderService
 
                     $order_program = [
                         'order_id'   => $order->id,
-                        'program_id' => $op['program_id'],
+                        'program_id' => $op['id'], // program_id
                         'number'     => $op['number'],
                         'file'       => $file ? $this->fileService->uploadBase64Image($file) : '',
+                        'provider_id' => $data['provider_id'],
                         'access_password' => $op['access_password'] ?? null,
                         'file_dir'	 => $file ? $file['name'] : null
                     ];
