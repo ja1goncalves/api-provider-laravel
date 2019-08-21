@@ -91,4 +91,12 @@ class Provider extends Authenticatable implements Transformable
     {
         return $this->hasMany(Fidelity::class, 'provider_id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function quotations()
+    {
+        return $this->hasMany(Quotation::class, 'provider_id');
+    }
 }
