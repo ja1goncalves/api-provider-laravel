@@ -9,6 +9,7 @@
 namespace App\Services;
 
 use App\Entities\Order;
+use App\Repositories\BanksProvidersSegmentRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\OrdersProgramRepository;
 use App\Services\Traits\CrudMethods;
@@ -34,6 +35,11 @@ class OrderService
      */
     protected $fileService;
 
+    /**
+     * @var BanksProvidersSegmentRepository
+     */
+    protected $banksProvidersSegmentRepository;
+
 
     protected $orderProgramsRepository;
 
@@ -42,8 +48,12 @@ class OrderService
      * @param OrderRepository $repository
      * @param FileService $fileService
      * @param OrdersProgramRepository $orderProgramsRepository
+     * @param BanksProvidersSegmentRepository $banksProvidersSegmentRepository
      */
-    public function __construct(OrderRepository $repository, FileService $fileService, OrdersProgramRepository $orderProgramsRepository)
+    public function __construct(OrderRepository $repository,
+                                FileService $fileService,
+                                OrdersProgramRepository $orderProgramsRepository,
+                                BanksProvidersSegmentRepository $banksProvidersSegmentRepository)
     {
         $this->repository  = $repository;
         $this->fileService = $fileService;
@@ -61,6 +71,12 @@ class OrderService
         $orders = [];
         DB::beginTransaction();
         try {
+            $bank = $this->banksProvidersSegmentRepository->findWhere(['provider_id' => $provider->id, 'main' => 1])->first();
+
+            if(!$bank){
+                $bank = $this->banksProvidersSegmentRepository->findByField('provider_id', $provider->id)->first();
+            }
+
             foreach ($data['orders_programs'] as $key => $op) {
 
                 $data = [
@@ -74,7 +90,7 @@ class OrderService
                     'system_creator'  => 2,
                     'status_modified' => Carbon::now()->format('Y-m-d H:i'),
                     'order_status_id' => Order::STATUS_EM_ANALISE,
-                    'banks_providers_segment_id' => null,
+                    'banks_providers_segment_id' => $bank ? $bank->id : null,
                 ];
 
                 $order = $this->repository->create($data);
