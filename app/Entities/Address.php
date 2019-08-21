@@ -2,6 +2,7 @@
 
 namespace App\Entities;
 
+use App\Observers\AddressObserver;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
@@ -37,5 +38,11 @@ class Address extends AppEntity implements Transformable
     public function provider()
     {
         return $this->belongsTo(Provider::class, 'provider_id', 'id');
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+        Address::observe(AddressObserver::class);
     }
 }

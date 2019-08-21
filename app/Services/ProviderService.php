@@ -244,6 +244,7 @@ class ProviderService
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
+            \Log::debug($e);
             return response()->json([
                 'error' => true,
                 'message' => $e->getMessage()

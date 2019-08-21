@@ -21,6 +21,12 @@ class Message extends Model implements Transformable
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'created_by',
+        'parent_id',
+        'parent_name',
+        'message_status_id',
+        'text'
+    ];
 
 }

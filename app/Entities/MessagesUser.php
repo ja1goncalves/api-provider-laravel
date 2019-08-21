@@ -22,6 +22,6 @@ class MessagesUser extends Model implements Transformable
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = ['message_id', 'user_id'];
 
 }

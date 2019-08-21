@@ -59,16 +59,6 @@ class ProviderObserver
             $provider->banks_providers_segment->main = true;
         }
 
-    }
-
-    /**
-     * Handle the provider "updated" event.
-     *
-     * @param  Provider  $provider
-     * @return void
-     */
-    public function updating(Provider $provider)
-    {
         $fields = ['gender', 'phone', 'cellphone', 'provider_occupation_id', 'occupation', 'company', 'company_phone'];
         $this->pendingEditionService->beforeSave($provider, $fields, 'Providers');
     }

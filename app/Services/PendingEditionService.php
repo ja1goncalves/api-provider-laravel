@@ -73,7 +73,6 @@ class PendingEditionService
     public function beforeSave(Model $model, array $fields, string $alias)
     {
         $create_occurrence = false;
-
         foreach ($fields as $field){
             if($model->isDirty($field) && !empty($model->{$field}) && !empty($model->getOriginal($field))){
                 $data = [
@@ -86,12 +85,10 @@ class PendingEditionService
                 $create_occurrence = true;
 
                 if(!$id = $this->duplicity($data)){
-                    $this->update($data, $id);
+                    $this->create($data, $id);
                 }
 
-                $model->isDirty([$field => false]);
-            }else if(empty($model->{$field})){
-                $model->isDirty([$field => false]);
+//                $model->isDirty([$field => false]);
             }
         }
         if($create_occurrence) $this->create_occurrence($data, $alias);
@@ -101,11 +98,11 @@ class PendingEditionService
     {
         $duplicity = $this->repository->findWhere([
             'model' => $data['model'],
-            'primary_key' => $data['primaky_key'],
+            'primary_key' => $data['primary_key'],
             'field' => $data['field']
         ])->first();
 
-        return $duplicity->id;
+        return $duplicity['id'];
     }
 
     public function create_occurrence($data, $alias)

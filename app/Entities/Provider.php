@@ -2,6 +2,7 @@
 
 namespace App\Entities;
 
+use App\Observers\ProviderObserver;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use Laravel\Passport\HasApiTokens;
@@ -98,5 +99,11 @@ class Provider extends Authenticatable implements Transformable
     public function quotations()
     {
         return $this->hasMany(Quotation::class, 'provider_id');
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+        Provider::observe(ProviderObserver::class);
     }
 }
