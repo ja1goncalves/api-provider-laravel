@@ -31,7 +31,7 @@ class FileService
      */
     private function generateName($extension)
     {
-        return time() . time() . '.' . $extension;
+        return md5(rand() . uniqid() . time()) . '.' . strtolower($extension);
     }
 
     /**

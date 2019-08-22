@@ -58,6 +58,7 @@ class OrderService
         $this->repository  = $repository;
         $this->fileService = $fileService;
         $this->orderProgramsRepository = $orderProgramsRepository;
+        $this->banksProvidersSegmentRepository = $banksProvidersSegmentRepository;
     }
 
     /**
@@ -104,7 +105,7 @@ class OrderService
                         'file'       => $file ? $this->fileService->uploadBase64Image($file) : '',
                         'provider_id' => $data['provider_id'],
                         'access_password' => $op['access_password'] ?? null,
-                        'file_dir'	 => $file ? $file['name'] : null
+                        'file_dir'	 => $file ? $file['filename'] : null
                     ];
 
                     $ordersPrograms[] = $this->orderProgramsRepository->create($order_program);
