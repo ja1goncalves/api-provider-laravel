@@ -101,6 +101,14 @@ class Provider extends Authenticatable implements Transformable
         return $this->hasMany(Quotation::class, 'provider_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function pendingEdition()
+    {
+        return $this->hasMany(PendingEdition::class, ['model' => 'Providers']);
+    }
+
     public static function boot()
     {
         parent::boot();

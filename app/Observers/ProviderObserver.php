@@ -60,6 +60,8 @@ class ProviderObserver
         }
 
         $fields = ['gender', 'phone', 'cellphone', 'provider_occupation_id', 'occupation', 'company', 'company_phone'];
-        $this->pendingEditionService->beforeSave($provider, $fields, 'Providers');
+        $change = $this->pendingEditionService->beforeSave($provider, $fields, 'Providers');
+
+        return !$change;
     }
 }

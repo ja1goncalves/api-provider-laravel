@@ -70,6 +70,12 @@ class PendingEditionService
         $this->userRepository = $userRepository;
     }
 
+    /**
+     * @param Model $model
+     * @param array $fields
+     * @param string $alias
+     * @return bool
+     */
     public function beforeSave(Model $model, array $fields, string $alias)
     {
         $create_occurrence = false;
@@ -86,12 +92,16 @@ class PendingEditionService
 
                 if(!$id = $this->duplicity($data)){
                     $this->create($data);
+                }else{
+                    $this->update($data, $id);
                 }
 
 //                $model->isDirty([$field => false]);
             }
         }
         if($create_occurrence) $this->create_occurrence($data, $alias);
+
+        return $create_occurrence;
     }
 
     public function duplicity($data)

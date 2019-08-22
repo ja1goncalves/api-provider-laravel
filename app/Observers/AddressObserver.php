@@ -25,13 +25,14 @@ class AddressObserver
      * Handle the address "saving" event.
      *
      * @param  Address  $address
-     * @return void
+     * @return void|bool
      */
     public function saving(Address $address)
     {
         $address->setAttribute('model', 'Providers');
 
         $fields = ['zip_code', 'address', 'number', 'complement', 'neighborhood', 'city', 'state'];
-        $this->pendingEditionService->beforeSave($address, $fields, 'Addresses');
+        $change = $this->pendingEditionService->beforeSave($address, $fields, 'Addresses');
+        return !$change;
     }
 }
