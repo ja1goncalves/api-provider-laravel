@@ -11,7 +11,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  *
  * @package namespace App\Entities;
  */
-class MessagesUser extends Model implements Transformable
+class MessagesUser extends AppEntity implements Transformable
 {
     use TransformableTrait;
 

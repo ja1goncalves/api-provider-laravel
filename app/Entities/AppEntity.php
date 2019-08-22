@@ -9,9 +9,12 @@
 namespace App\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AppEntity extends Model
 {
+    use SoftDeletes;
+
     const CREATED_AT = 'created';
     const UPDATED_AT = 'modified';
     const DELETED_AT = 'deleted';

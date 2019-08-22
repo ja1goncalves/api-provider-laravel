@@ -85,7 +85,7 @@ class PendingEditionService
                 $create_occurrence = true;
 
                 if(!$id = $this->duplicity($data)){
-                    $this->create($data, $id);
+                    $this->create($data);
                 }
 
 //                $model->isDirty([$field => false]);
