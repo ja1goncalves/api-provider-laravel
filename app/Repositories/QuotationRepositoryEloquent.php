@@ -44,5 +44,12 @@ class QuotationRepositoryEloquent extends BaseRepository implements QuotationRep
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
-    
+
+    public function updateByProvider($email, $provider_id)
+    {
+        $this->model->newQuery()
+            ->where('email', '=', $email)
+            ->update(['provider_id' => $provider_id]);
+    }
+
 }

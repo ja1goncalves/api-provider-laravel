@@ -98,7 +98,7 @@ class ProviderService
             'email'              => $data['email'],
             'cpf'                => $data['cpf'],
             'name'               => $data['name'],
-            'activation_token'   => str_random(60)
+//            'activation_token'   => str_random(60)
         ];
 
         DB::beginTransaction();
@@ -118,6 +118,7 @@ class ProviderService
             }
         } catch (\Exception $e) {
             DB::rollBack();
+            \Log::debug($e);
             return response()->json([
                 'error' => true,
                 'message' => $e->getMessage()
@@ -136,7 +137,7 @@ class ProviderService
             'email'              => $data['email'],
             'cpf'                => $data['cpf'],
             'name'               => $data['name'],
-            'activation_token'   => str_random(60)
+//            'activation_token'   => str_random(60)
         ];
         DB::beginTransaction();
         try {
@@ -152,6 +153,7 @@ class ProviderService
             }
         } catch (\Exception $e) {
             DB::rollBack();
+            \Log::debug($e);
             return response()->json([
                 'error' => true,
                 'message' => $e->getMessage()

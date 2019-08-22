@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use \App\Entities\Provider;
+use App\Entities\Quotation;
 use App\Services\PendingEditionService;
 use App\Services\QuotationService;
 
@@ -33,12 +34,7 @@ class ProviderObserver
 
     public function creating(Provider $provider)
     {
-        $quotations = $this->quotationService->findWhere(['email' => $provider->getAttribute('email')])->toArray();
-        $provider->setAttribute('quotations', $quotations);
-
-        if(!$provider->isDirty('provider_status_id')){
-            $provider->isDirty(['status_modified' => false]);
-        }
+        $this->quotationService->updateByProvider($provider->getAttribute('email'), $provider->getAttribute('id'));
     }
 
     public function saving(Provider $provider)
