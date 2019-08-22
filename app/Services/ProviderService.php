@@ -98,7 +98,6 @@ class ProviderService
             'email'              => $data['email'],
             'cpf'                => $data['cpf'],
             'name'               => $data['name'],
-//            'activation_token'   => str_random(60)
         ];
 
         DB::beginTransaction();
@@ -110,7 +109,7 @@ class ProviderService
 
                 DB::commit();
 
-                $provider->notify(new SignupActivate($provider));
+                $provider->notify(new SignupActivate(['activation_token' => str_random(60)]));
                 return response()->json([
                     'error' => false,
                     'message' => "Please check you email"
@@ -137,15 +136,13 @@ class ProviderService
             'email'              => $data['email'],
             'cpf'                => $data['cpf'],
             'name'               => $data['name'],
-//            'activation_token'   => str_random(60)
         ];
         DB::beginTransaction();
         try {
             if ($provider = $this->repository->create($providerData)) {
 
                 DB::commit();
-
-                $provider->notify(new SignupActivate($provider));
+                $provider->notify(new SignupActivate(['activation_token' => str_random(60)]));
                 return response()->json([
                     'error' => false,
                     'message' => "Please check you email"
