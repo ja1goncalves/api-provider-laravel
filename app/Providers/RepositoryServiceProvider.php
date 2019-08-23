@@ -41,6 +41,9 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(\App\Repositories\MessageRepository::class, \App\Repositories\MessageRepositoryEloquent::class);
         $this->app->bind(\App\Repositories\MessagesUserRepository::class, \App\Repositories\MessagesUserRepositoryEloquent::class);
         $this->app->bind(\App\Repositories\UserRepository::class, \App\Repositories\UserRepositoryEloquent::class);
+        $this->app->bind(\App\Repositories\EmailServiceRepository::class, \App\Repositories\EmailServiceRepositoryEloquent::class);
+        $this->app->bind(\App\Repositories\EmailProfileRepository::class, \App\Repositories\EmailProfileRepositoryEloquent::class);
+        $this->app->bind(\App\Repositories\EmailTransportRepository::class, \App\Repositories\EmailTransportRepositoryEloquent::class);
         //:end-bindings:
     }
 }
