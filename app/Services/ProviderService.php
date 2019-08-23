@@ -231,7 +231,6 @@ class ProviderService
             if($data['address']) {
                 $data['address']['parent_id'] = $id;
                 $data['address']['model'] = 'Providers';
-                $data['address']['address_type'] = 1;
                 if(isset($data['address']['id'])) {
                     $this->addressRepository->update($data['address'], $data['address']['id']);
                 } else {

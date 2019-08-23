@@ -14,6 +14,8 @@ use App\Repositories\OrderRepository;
 use App\Repositories\OrdersProgramRepository;
 use App\Services\Traits\CrudMethods;
 use Carbon\Carbon;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
 
@@ -115,6 +117,7 @@ class OrderService
                 $orders[] = $order;
             }
 
+            $this->sendMailConfirmation($provider->id);
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
@@ -125,5 +128,31 @@ class OrderService
         }
 
         return $orders;
+    }
+
+    /**
+     * @param $provider_id
+     */
+    private function sendMailConfirmation($provider_id)
+    {
+        $config = Config::get('mail.crm');
+        $token = base64_encode("{$config['username']}:{$config['password']}");
+
+        $data = [
+            'template_id' => 10,
+            'provider_id' => $provider_id
+        ];
+
+        $client = new Client();
+        $response = $client->post($config['url'], [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $token
+            ],
+            'body' => json_encode($data)
+        ]);
+
+        if($response->getStatusCode() != '202')
+            \Log::debug('EMAIL MARKETING DONT SEND');
     }
 }
