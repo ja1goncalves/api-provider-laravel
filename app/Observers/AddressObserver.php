@@ -22,6 +22,17 @@ class AddressObserver
     }
 
     /**
+     * Handle the address "creating" event.
+     *
+     * @param  Address  $address
+     * @return void|bool
+     */
+    public function creating(Address $address)
+    {
+        $address->setAttribute('address_type', 1);
+    }
+
+    /**
      * Handle the address "saving" event.
      *
      * @param  Address  $address
