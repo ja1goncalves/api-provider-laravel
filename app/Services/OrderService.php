@@ -15,6 +15,7 @@ use App\Repositories\OrdersProgramRepository;
 use App\Services\Traits\CrudMethods;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
@@ -125,6 +126,11 @@ class OrderService
                 'error' => true,
                 'message' => $e->getMessage()
             ]);
+        } catch (GuzzleException $e) {
+            return response()->json([
+                'error' => true,
+                'message' => $e->getMessage()
+            ]);
         }
 
         return $orders;
@@ -132,6 +138,7 @@ class OrderService
 
     /**
      * @param $provider_id
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     private function sendMailConfirmation($provider_id)
     {
@@ -143,14 +150,15 @@ class OrderService
             'provider_id' => $provider_id
         ];
 
-        $client = new Client();
-        $response = $client->post($config['url'], [
+        $options = [
             'headers' => [
                 'Content-Type' => 'application/json',
                 'Authorization' => 'Bearer ' . $token
             ],
             'body' => json_encode($data)
-        ]);
+        ];
+
+        $response = Service::processRequest('POST', $config['url'], $options);
 
         if($response->getStatusCode() != '202')
             \Log::debug('EMAIL MARKETING DONT SEND');

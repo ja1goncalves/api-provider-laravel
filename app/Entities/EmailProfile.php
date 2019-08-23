@@ -11,7 +11,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  *
  * @package namespace App\Entities;
  */
-class EmailProfile extends Model implements Transformable
+class EmailProfile extends AppEntity implements Transformable
 {
     use TransformableTrait;
 
@@ -23,5 +23,14 @@ class EmailProfile extends Model implements Transformable
      * @var array
      */
     protected $fillable = [];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|\Illuminate\Database\Query\Builder
+     */
+    public function emailTransport()
+    {
+        return $this->belongsTo(EmailTransport::class, 'email_transport_id')
+                    ->joinWhere(EmailTransport::class,'email_transport_id','=','id','inner');
+    }
 
 }

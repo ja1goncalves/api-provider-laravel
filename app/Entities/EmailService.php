@@ -11,7 +11,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  *
  * @package namespace App\Entities;
  */
-class EmailService extends Model implements Transformable
+class EmailService extends AppEntity implements Transformable
 {
     use TransformableTrait;
 
@@ -85,5 +85,14 @@ class EmailService extends Model implements Transformable
     public static function getEmailSequence($code, $default = null)
     {
         return array_key_exists($code, self::$email_sequence) ? self::$email_sequence[$code] : $default;
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|\Illuminate\Database\Query\Builder
+     */
+    public function emailProfile()
+    {
+        return $this->belongsTo(EmailProfile::class,'email_profile_id')
+            ->joinWhere(EmailProfile::class, 'email_profile_id','=', 'id', 'inner');
     }
 }

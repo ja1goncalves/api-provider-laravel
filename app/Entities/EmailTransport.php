@@ -11,7 +11,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  *
  * @package namespace App\Entities;
  */
-class EmailTransport extends Model implements Transformable
+class EmailTransport extends AppEntity implements Transformable
 {
     use TransformableTrait;
 
@@ -23,5 +23,13 @@ class EmailTransport extends Model implements Transformable
      * @var array
      */
     protected $fillable = [];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function emailProfile()
+    {
+        return $this->hasMany(EmailProfile::class, 'email_transport_id');
+    }
 
 }
