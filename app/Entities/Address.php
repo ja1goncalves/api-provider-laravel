@@ -37,7 +37,7 @@ class Address extends AppEntity implements Transformable
      */
     public function provider()
     {
-        return $this->belongsTo(Provider::class, 'provider_id', 'id');
+        return $this->belongsTo(Provider::class, 'parent_id', 'id');
     }
 
     public static function boot()

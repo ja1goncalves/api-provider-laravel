@@ -8,6 +8,7 @@
 
 namespace App\Services;
 
+use App\Entities\Fidelity;
 use App\Entities\Provider;
 use App\Notifications\SignupActivate;
 use App\Presenters\ProviderPresenter;
@@ -15,6 +16,7 @@ use App\Repositories\AddressRepository;
 use App\Repositories\BanksProvidersSegmentRepository;
 use App\Repositories\FidelityRepository;
 use App\Repositories\PreProviderRepository;
+use App\Repositories\ProgramRepository;
 use App\Repositories\ProviderRepository;
 use App\Repositories\QuotationRepository;
 use App\Services\Traits\CrudMethods;
@@ -62,6 +64,11 @@ class ProviderService
      */
     protected $quotationRepository;
 
+    /**
+     * @var ProgramRepository
+     */
+    protected $programRepository;
+
 
     /**
      * ProviderService constructor.
@@ -71,13 +78,15 @@ class ProviderService
      * @param FidelityRepository $fidelityRepository
      * @param PreProviderRepository $preProviderRepository
      * @param QuotationRepository $quotationRepository
+     * @param ProgramRepository $programRepository
      */
     public function __construct(ProviderRepository $repository,
                                 BanksProvidersSegmentRepository $bankRepository,
                                 AddressRepository $addressRepository,
                                 FidelityRepository $fidelityRepository,
                                 PreProviderRepository $preProviderRepository,
-                                QuotationRepository $quotationRepository
+                                QuotationRepository $quotationRepository,
+                                ProgramRepository $programRepository
                                                         )
     {
         $this->repository = $repository;
@@ -86,6 +95,7 @@ class ProviderService
         $this->fidelityRepository = $fidelityRepository;
         $this->preProviderRepository = $preProviderRepository;
         $this->quotationRepository = $quotationRepository;
+        $this->programRepository = $programRepository;
     }
 
     public function create2(array $data)
@@ -221,6 +231,7 @@ class ProviderService
             if($data['address']) {
                 $data['address']['parent_id'] = $id;
                 $data['address']['model'] = 'Providers';
+                $data['address']['address_type'] = 1;
                 if(isset($data['address']['id'])) {
                     $this->addressRepository->update($data['address'], $data['address']['id']);
                 } else {
@@ -232,6 +243,10 @@ class ProviderService
             if($data['fidelities']) {
                 foreach($data['fidelities'] as $fidelity) {
                     $fidelity['provider_id'] = $id;
+                    if(!empty($fidelity['type'])){
+                        $new_cia = $this->programRepository->findByField('code', $fidelity['type'])->first();
+                        $fidelity['program_id'] = $new_cia ? $new_cia['id'] : $fidelity['program_id'];
+                    }
                     if(isset($fidelity['id'])) {
                         $this->fidelityRepository->update($fidelity, $fidelity['id']);
                     } else {

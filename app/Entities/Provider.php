@@ -74,7 +74,7 @@ class Provider extends Authenticatable implements Transformable
      */
     public function addresses()
     {
-        return $this->hasMany(Address::class, 'parent_id');
+        return $this->hasMany(Address::class, 'parent_id', 'id');
     }
 
     /**
