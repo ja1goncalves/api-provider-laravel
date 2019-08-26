@@ -93,7 +93,7 @@ class SendMailBySendGrid implements ShouldQueue
 
             $response = Service::processRequest($method, $endpoint, $options);
 
-            if ($response->getStatusCode() != 200) {
+            if ($response->getStatusCode() <= 200 && $response->getStatusCode() >= 220) {
                 Log::alert("Erro ao enviar email de cotação LEAD.");
             }
         }

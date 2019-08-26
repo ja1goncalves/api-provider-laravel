@@ -124,7 +124,7 @@ class ProviderService
                     'to' => $providerData['email'],
                     'subject' => 'Confirmação de Conta',
                     'provider' => $providerData,
-                    'url_confirmation' => url('/api/provider/activate/'.str_random(60))
+                    'url_confirmation' => url('/api/provider/cadastro')
                 ];
 
                 SendMailBySendGrid::dispatch($data_send_mail, 'confirm_email')->delay(0.5);
@@ -135,7 +135,6 @@ class ProviderService
             }
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::debug($e);
             return response()->json([
                 'error' => true,
                 'message' => $e->getMessage()
@@ -165,7 +164,7 @@ class ProviderService
                     'to' => $providerData['email'],
                     'subject' => 'Confirmação de Conta',
                     'provider' => $providerData,
-                    'url_confirmation' => url('/api/provider/activate/'.str_random(60))
+                    'url_confirmation' => url('/api/provider/cadastro')
                 ];
 
                 SendMailBySendGrid::dispatch($data_send_mail, 'confirm_email')->delay(0.5);

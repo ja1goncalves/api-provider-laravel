@@ -1,5 +1,6 @@
-<!doctype html>
-<html lang="{{ app()->getLocale() }}" xmlns="http://www.w3.org/1999/xhtml" style="width:100% !important;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<?php use Cake\Core\Configure; ?>
+<!-- saved from url=(0151)https://trello-attachments.s3.amazonaws.com/5b7ea7338271240594a1558b/5cf7d940796b09401993d3f1/ca8a9bff6a68d923f7b5f698c3e79c9a/3_-_email-analise-3.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" style="width:100% !important;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <script src="https://js-agent.newrelic.com/nr-1118.min.js"></script><script type="text/javascript" src="https://bam.nr-data.net/1/aece2c08f5?a=22912202&v=1118.0c07c19&to=ZgMBMkBYDRcCARVQC19JIBNBTQwJTA8AUAhuAQYS&rst=469&ref=file:///home/joaopaulo/%25C3%2581rea%2520de%2520Trabalho/mail/teste.html&ap=259&be=290&fe=384&dc=306&perf=%7B%22timing%22:%7B%22of%22:1559849857440,%22n%22:0,%22u%22:218,%22ue%22:218,%22f%22:1,%22dn%22:1,%22dne%22:1,%22c%22:1,%22ce%22:1,%22rq%22:1,%22rp%22:1,%22rpe%22:111,%22dl%22:220,%22di%22:306,%22ds%22:306,%22de%22:306,%22dc%22:384,%22l%22:384,%22le%22:385%7D,%22navigation%22:%7B%22ty%22:1%7D%7D&at=SkQCRAhCHhk%3D&jsonp=NREUM.setToken"></script><script type="text/javascript">window.NREUM||(NREUM={}),__nr_require=function(e, n, t){function r(t){if(!n[t]){var o=n[t]={exports:{}};e[t][0].call(o.exports,function(n){var o=e[t][1][n];return r(o||n)},o,o.exports)}return n[t].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0; o<t.length; o++)r(t[o]);return r}({1:[function(e, n, t){function r(){}function o(e, n, t){return function(){return i(e,[c.now()].concat(u(arguments)),n?null:this,t),n?void 0:this}}var i=e("handle"),a=e(3),u=e(4),f=e("ee").get("tracer"),c=e("loader"),s=NREUM;"undefined"==typeof window.newrelic&&(newrelic=s);var p=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],d="api-",l=d+"ixn-";a(p,function(e,n){s[n]=o(d+n,!0,"api")}),s.addPageAction=o(d+"addPageAction",!0),s.setCurrentRouteName=o(d+"routeName",!0),n.exports=newrelic,s.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(e,n){var t={},r=this,o="function"==typeof n;return i(l+"tracer",[c.now(),e,t],r),function(){if(f.emit((o?"":"no-")+"fn-start",[c.now(),r,o],t),o)try{return n.apply(this,arguments)}catch(e){throw f.emit("fn-err",[arguments,this,e],t),e}finally{f.emit("fn-end",[c.now()],t)}}}};a("actionText,setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(e,n){m[n]=o(l+n)}),newrelic.noticeError=function(e,n){"string"==typeof e&&(e=new Error(e)),i("err",[e,c.now(),!1,n])}},{}],2:[function(e,n,t){function r(e,n){if(!o)return!1;if(e!==o)return!1;if(!n)return!0;if(!i)return!1;for(var t=i.split("."),r=n.split("."),a=0;a<r.length;a++)if(r[a]!==t[a])return!1;return!0}var o=null,i=null,a=/Version\/(\S+)\s+Safari/;if(navigator.userAgent){var u=navigator.userAgent,f=u.match(a);f&&u.indexOf("Chrome")===-1&&u.indexOf("Chromium")===-1&&(o="Safari",i=f[1])}n.exports={agent:o,version:i,match:r}},{}],3:[function(e,n,t){function r(e,n){var t=[],r="",i=0;for(r in e)o.call(e,r)&&(t[i]=n(r,e[r]),i+=1);return t}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],4:[function(e,n,t){function r(e,n,t){n||(n=0),"undefined"==typeof t&&(t=e?e.length:0);for(var r=-1,o=t-n||0,i=Array(o<0?0:o);++r<o;)i[r]=e[n+r];return i}n.exports=r},{}],5:[function(e,n,t){n.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(e,n,t){function r(){}function o(e){function n(e){return e&&e instanceof r?e:e?f(e,u,i):i()}function t(t,r,o,i){if(!d.aborted||i){e&&e(t,r,o);for(var a=n(o),u=v(t),f=u.length,c=0;c<f;c++)u[c].apply(a,r);var p=s[y[t]];return p&&p.push([b,t,r,a]),a}}function l(e,n){h[e]=v(e).concat(n)}function m(e,n){var t=h[e];if(t)for(var r=0;r<t.length;r++)t[r]===n&&t.splice(r,1)}function v(e){return h[e]||[]}function g(e){return p[e]=p[e]||o(t)}function w(e,n){c(e,function(e,t){n=n||"feature",y[t]=n,n in s||(s[n]=[])})}var h={},y={},b={on:l,addEventListener:l,removeEventListener:m,emit:t,get:g,listeners:v,context:n,buffer:w,abort:a,aborted:!1};return b}function i(){return new r}function a(){(s.api||s.feature)&&(d.aborted=!0,s=d.backlog={})}var u="nr@context",f=e("gos"),c=e(3),s={},p={},d=n.exports=o();d.backlog=s},{}],gos:[function(e,n,t){function r(e,n,t){if(o.call(e,n))return e[n];var r=t();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,n,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return e[n]=r,r}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],handle:[function(e,n,t){function r(e,n,t,r){o.buffer([e],r),o.emit(e,n,t)}var o=e("ee").get("handle");n.exports=r,r.ee=o},{}],id:[function(e,n,t){function r(e){var n=typeof e;return!e||"object"!==n&&"function"!==n?-1:e===window?0:a(e,i,function(){return o++})}var o=1,i="nr@id",a=e("gos");n.exports=r},{}],loader:[function(e,n,t){function r(){if(!E++){var e=x.info=NREUM.info,n=l.getElementsByTagName("script")[0];if(setTimeout(s.abort,3e4),!(e&&e.licenseKey&&e.applicationID&&n))return s.abort();c(y,function(n,t){e[n]||(e[n]=t)}),f("mark",["onload",a()+x.offset],null,"api");var t=l.createElement("script");t.src="https://"+e.agent,n.parentNode.insertBefore(t,n)}}function o(){"complete"===l.readyState&&i()}function i(){f("mark",["domContent",a()+x.offset],null,"api")}function a(){return O.exists&&performance.now?Math.round(performance.now()):(u=Math.max((new Date).getTime(),u))-x.offset}var u=(new Date).getTime(),f=e("handle"),c=e(3),s=e("ee"),p=e(2),d=window,l=d.document,m="addEventListener",v="attachEvent",g=d.XMLHttpRequest,w=g&&g.prototype;NREUM.o={ST:setTimeout,SI:d.setImmediate,CT:clearTimeout,XHR:g,REQ:d.Request,EV:d.Event,PR:d.Promise,MO:d.MutationObserver};var h=""+location,y={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1118.min.js"},b=g&&w&&w[m]&&!/CriOS/.test(navigator.userAgent),x=n.exports={offset:u,now:a,origin:h,features:{},xhrWrappable:b,userAgent:p};e(1),l[m]?(l[m]("DOMContentLoaded",i,!1),d[m]("load",r,!1)):(l[v]("onreadystatechange",o),d[v]("onload",r)),f("mark",["firstbyte",u],null,"api");var E=0,O=e(5)},{}]},{},["loader"]);</script>
@@ -76,29 +77,95 @@
                                         </tr>
                                         </tbody>
                                     </table>
-                                    <div class="row">
-                                        <p>Caro, {{$data['provider']['name']}}</p>
-                                        <p>Obrigado pela inscrição! Antes de começar, você deve confirmar sua conta.</p>
-                                        <a href="{{url($data['url_confirmation'])}}">Clique e confirme sua conta...'</a>
-                                        <p>Obrigado por usar nosso aplicativo!</p>
-                                    </div>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
-
+                        <table width="480" cellpadding="0" cellspacing="0" border="0" align="center" bgcolor="#ffffff" style="border-radius:0 0 10px 10px;overflow:hidden;">
+                            <tbody>
+                            <tr>
+                                <td style="padding-top:0;">
+                                    <table cellpadding="" g="0" cellspacing="0" border="0" align="center" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;width:100%;">
+                                        <tbody>
+                                        <tr><td height="36"></td></tr>
+                                        <tr>
+                                            <td class="head-mail" data-color="Text" data-size="Text" data-min="5" data-max="50" align="center" style="text-align:justify;font-weight:300;font-size:15px;letter-spacing:0.025em;line-height:26px;color:#686868;font-family:&#39;Coolvetica&#39;, sans-serif;mso-line-height-rule:exactly;padding-top:0;padding-bottom:0;padding-right:40px;padding-left:40px;">
+                                                <div style="width:50%;display:block;float:left;font-size:14px;">
+                                                    <b>
+                                                        Caro, {{$data['provider']['name']}}
+                                                        <br>
+                                                        Obrigado pela inscrição! Antes de começar, você deve confirmar sua conta.
+                                                        <br><br>
+                                                        Obrigado por usar nosso aplicativo!
+                                                    </b>
+                                                </div>
+                                                <div style="width:50%;display:block;float:left;">
+                                                    <img src="https://elomilhas.com.br/wp-content/uploads/2019/05/email-3.jpg">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr><td height="36"></td></tr>
+                                        <tr class="cent-itens" style="display:flex;align-items:center;-webkit-align-items:center;justify-content:center;-webkit-justify-content:center;flex-direction:row;-webkit-flex-direction:row;">
+                                            <td class="aviao aviao1" style="display:block;float:left;">
+                                                <img src="https://elomilhas.com.br/wp-content/uploads/2019/05/aviao-elo.jpeg" style="width:100px;">
+                                            </td>
+                                            <td class="td-pad10-30" align="center" style="float:left;">
+                                                <table class="table-button220" width="250" height="45" align="center" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffc600" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;border-radius:80px;border-width:2px;border-style:solid;border-color:#f1b000;">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td align="center" valign="middle" style="padding-top:5px;padding-bottom:5px;padding-right:20px;padding-left:20px;">
+                                                            <a data-color="Button" data-size="Button" data-min="5" data-max="50" href="{{url($data['url_confirmation'])}}" style="font-weight:700;font-size:15px;letter-spacing:0.000em;line-height:auto;color:#294885;font-family:&#39;Coolvetica&#39;, sans-serif;mso-line-height-rule:exactly;text-decoration:none;">
+                                                                Volte ao site e confirme sua conta...
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td class="aviao aviao2" style="display:block;float:right;">
+                                                <img src="https://elomilhas.com.br/wp-content/uploads/2019/05/aviao2-elo.jpeg" style="width:100px;">
+                                            </td>
+                                        </tr>
+                                        <tr><td height="60"></td></tr>
+                                        <tr>
+                                            <td data-color="Text" data-size="Text" bgcolor="#0880c9" data-min="5" data-max="50" align="center" style="position:relative;text-align:justify;font-weight:300;font-size:15px;letter-spacing:0.025em;line-height:26px;color:#fff;font-family:&#39;Coolvetica&#39;, sans-serif;mso-line-height-rule:exactly;border-radius:0 0 10px 10px;">
+                                                <div class="duvidas" style="background-color:#fff;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;border-radius:80px;padding-top:10px;padding-bottom:10px;padding-right:40px;padding-left:40px;margin-top:20px;margin-bottom:20px;margin-right:20px;margin-left:20px;">
+                                                    <h3 style="color:#294885;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:center;">Você tem alguma dúvida?</h3>
+                                                    <p style="color:#686868;font-size:13px;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:center;">Visite o nosso site para dúvidas ou entre em contato!</p>
+                                                    <p style="color:#686868;font-size:13px;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:center;">Atendimento de segunda à sexta, das 8:00 às 18:00</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <table width="480" height="152" cellpadding="0" cellspacing="0" border="0" align="center">
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <table width="420" height="152" cellpadding="0" cellspacing="0" border="0" align="center">
+                                        <tbody>
+                                        <tr>
+                                            <td data-color="Footer 01" data-size="Footer 01" data-min="5" data-max="50" class="td-pad10-20-wide" align="center" valign="top" style="padding-top:23px;padding-bottom:0px;padding-right:0px;padding-left:0px;font-weight:300;font-size:12px;letter-spacing:0.025em;line-height:24px;color:#686868;font-family:&#39;Coolvetica&#39;, sans-serif;mso-line-height-rule:exactly;">
+                                                contato@elomilhas.com.br<br>Rua do Paissandu, 567 - Recife - PE<br>(81) 4042.9770
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </td>
                 </tr>
                 </tbody>
             </table>
         </td>
     </tr>
-    <div class="content">
-        <div class="links">
-            Powered by <a href="https://mangue3.com">Mangue3</a>
-        </div>
-    </div>
     </tbody>
 </table>
-<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","licenseKey":"aece2c08f5","applicationID":"22912202","transactionName":"ZgMBMkBYDRcCARVQC19JIBNBTQwJTA8AUAhuAQYS","queueTime":0,"applicationTime":294,"atts":"SkQCRAhCHhk=","errorBeacon":"bam.nr-data.net","agent":""}</script>
+<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","licenseKey":"aece2c08f5","applicationID":"22912202","transactionName":"ZgMBMkBYDRcCARVQC19JIBNBTQwJTA8AUAhuAQYS","queueTime":0,"applicationTime":288,"atts":"SkQCRAhCHhk=","errorBeacon":"bam.nr-data.net","agent":""}</script>
 </body></html>
