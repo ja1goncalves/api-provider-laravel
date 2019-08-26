@@ -109,6 +109,7 @@ class ProviderService
             'email'              => $data['email'],
             'cpf'                => $data['cpf'],
             'name'               => $data['name'],
+            'activation_token'  => str_random(60)
         ];
 
         DB::beginTransaction();
@@ -124,7 +125,7 @@ class ProviderService
                     'to' => $providerData['email'],
                     'subject' => 'Confirmação de Conta',
                     'provider' => $providerData,
-                    'url_confirmation' => url('/api/provider/cadastro')
+                    'url_confirmation' => url('/api/provider/activate/'.$providerData['activation_token'])
                 ];
 
                 SendMailBySendGrid::dispatch($data_send_mail, 'confirm_email')->delay(0.5);
@@ -153,6 +154,7 @@ class ProviderService
             'email'              => $data['email'],
             'cpf'                => $data['cpf'],
             'name'               => $data['name'],
+            'activation_token'  => str_random(60)
         ];
         DB::beginTransaction();
         try {
@@ -164,9 +166,9 @@ class ProviderService
                     'to' => $providerData['email'],
                     'subject' => 'Confirmação de Conta',
                     'provider' => $providerData,
-                    'url_confirmation' => url('/api/provider/cadastro')
+                    'url_confirmation' => url('/api/provider/activate/'.$providerData['activation_token'])
                 ];
-
+                \Log::debug($data_send_mail);
                 SendMailBySendGrid::dispatch($data_send_mail, 'confirm_email')->delay(0.5);
                 return response()->json([
                     'error' => false,
