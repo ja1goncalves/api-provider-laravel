@@ -10,6 +10,7 @@ namespace App\Services;
 
 use App\Entities\Fidelity;
 use App\Entities\Provider;
+use App\Jobs\SendMailBySendGrid;
 use App\Notifications\SignupActivate;
 use App\Presenters\ProviderPresenter;
 use App\Repositories\AddressRepository;
@@ -119,7 +120,14 @@ class ProviderService
 
                 DB::commit();
 
-//                $provider->notify(new SignupActivate(['activation_token' => str_random(60)]));
+                $data_send_mail = [
+                    'to' => $providerData['email'],
+                    'subject' => 'Confirmação de Conta',
+                    'provider' => $providerData,
+                    'url_confirmation' => url('/api/provider/activate/'.str_random(60))
+                ];
+
+                SendMailBySendGrid::dispatch($data_send_mail, 'confirm_email')->delay(0.5);
                 return response()->json([
                     'error' => false,
                     'message' => "Please check you email"
@@ -152,7 +160,15 @@ class ProviderService
             if ($provider = $this->repository->create($providerData)) {
 
                 DB::commit();
-//                $provider->notify(new SignupActivate(['activation_token' => str_random(60)]));
+
+                $data_send_mail = [
+                    'to' => $providerData['email'],
+                    'subject' => 'Confirmação de Conta',
+                    'provider' => $providerData,
+                    'url_confirmation' => url('/api/provider/activate/'.str_random(60))
+                ];
+
+                SendMailBySendGrid::dispatch($data_send_mail, 'confirm_email')->delay(0.5);
                 return response()->json([
                     'error' => false,
                     'message' => "Please check you email"
@@ -160,7 +176,6 @@ class ProviderService
             }
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::debug($e);
             return response()->json([
                 'error' => true,
                 'message' => $e->getMessage()

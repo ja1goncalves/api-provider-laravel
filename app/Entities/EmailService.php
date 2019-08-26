@@ -92,7 +92,6 @@ class EmailService extends AppEntity implements Transformable
      */
     public function emailProfile()
     {
-        return $this->belongsTo(EmailProfile::class,'email_profile_id')
-            ->joinWhere(EmailProfile::class, 'email_profile_id','=', 'id', 'inner');
+        return $this->belongsTo(EmailProfile::class,'email_profile_id');
     }
 }

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
  * Class Service
  * @package App\Services
  */
-class Service 
+class Service
 {
     /**
      * @param bool $object
@@ -109,7 +109,6 @@ class Service
     {
         try {
             $response = self::httpClient()->request($method, $endpoint, $options);
-            $response = json_decode($response->getBody(), true);
             return $response;
         } catch (ClientException $e) {
             $message = json_decode($e->getResponse()->getBody(), true);

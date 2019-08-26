@@ -15,7 +15,7 @@ class EmailTransport extends AppEntity implements Transformable
 {
     use TransformableTrait;
 
-    protected $table = 'email_transport';
+    protected $table = 'email_transports';
 
     /**
      * The attributes that are mass assignable.

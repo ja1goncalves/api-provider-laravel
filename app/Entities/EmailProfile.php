@@ -29,8 +29,7 @@ class EmailProfile extends AppEntity implements Transformable
      */
     public function emailTransport()
     {
-        return $this->belongsTo(EmailTransport::class, 'email_transport_id')
-                    ->joinWhere(EmailTransport::class,'email_transport_id','=','id','inner');
+        return $this->belongsTo(EmailTransport::class, 'email_transport_id');
     }
 
 }
