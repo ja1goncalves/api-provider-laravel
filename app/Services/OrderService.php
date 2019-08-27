@@ -84,16 +84,17 @@ class OrderService
             foreach ($data['orders_programs'] as $key => $op) {
 
                 $data = [
-                    'provider_id'  => $provider->id,
-                    'quotation_id' => $data['quotation_id'],
-                    'program_id'   => $op['id'], // program_id
-                    'price'    => $op['price'],
-                    'value'    => $op['value'],
-                    'due_date' => Carbon::now()->addDay(1)->format('Y-m-d'),
-                    'department'      => 1,
-                    'system_creator'  => 2,
-                    'status_modified' => Carbon::now()->format('Y-m-d H:i'),
-                    'order_status_id' => Order::STATUS_EM_ANALISE,
+                    'provider_id'                => $provider->id,
+                    'quotation_id'               => $data['quotation_id'],
+                    'program_id'                 => $op['id'], // program_id
+                    'price'                      => $op['price'],
+                    'value'                      => $op['value'],
+                    'due_date'                   => Carbon::now()->addDay(1)->format('Y-m-d'),
+                    'department'                 => 1,
+                    'system_creator'             => 2,
+                    'observation'                => '',
+                    'status_modified'            => Carbon::now()->format('Y-m-d H:i'),
+                    'order_status_id'            => Order::STATUS_EM_ANALISE,
                     'banks_providers_segment_id' => $bank ? $bank->id : null,
                 ];
 
@@ -102,13 +103,13 @@ class OrderService
                 foreach($op['files'] as $file){
 
                     $order_program = [
-                        'order_id'   => $order->id,
-                        'program_id' => $op['id'], // program_id
-                        'number'     => $op['number'],
-                        'file'       => $file ? $this->fileService->uploadBase64Image($file) : '',
-                        'provider_id' => $data['provider_id'],
-                        'access_password' => $op['access_password'] ?? null,
-                        'file_dir'	 => $file ? $file['filename'] : null
+                        'order_id'          => $order->id,
+                        'program_id'        => $op['id'], // program_id
+                        'number'            => $op['number'],
+                        'file'              => $file ? $this->fileService->uploadBase64Image($file) : '',
+                        'provider_id'       => $data['provider_id'],
+                        'access_password'   => $op['access_password'] ?? null,
+                        'file_dir'	        => $file ? $file['filename'] : null
                     ];
 
                     $ordersPrograms[] = $this->orderProgramsRepository->create($order_program);
@@ -142,7 +143,7 @@ class OrderService
      */
     private function sendMailConfirmation($provider_id)
     {
-        $config = Config::get('mail.crm');
+        $config = Config::get('mail.crm_marketing');
         $token = base64_encode("{$config['username']}:{$config['password']}");
 
         $data = [
