@@ -51,7 +51,7 @@ class PasswordResetService
                     'to' => $passwordReset->email,
                     'subject' => 'Mudar senha',
                     'provider' => $provider,
-                    'url_reset' => url("{$url_front}#/recuperar-senha/".$passwordReset->token)
+                    'url_reset' => url("{$url_front}/recuperar-senha/".$passwordReset->token)
                 ];
 
                 SendMailBySendGrid::dispatch($data_send_mail, 'password_reset')->delay(0.5);
