@@ -168,7 +168,7 @@ class ProviderService
                     'provider' => $providerData,
                     'url_confirmation' => url('/api/provider/activate/'.$providerData['activation_token'])
                 ];
-                \Log::debug($data_send_mail);
+
                 SendMailBySendGrid::dispatch($data_send_mail, 'confirm_email')->delay(0.5);
                 return response()->json([
                     'error' => false,
