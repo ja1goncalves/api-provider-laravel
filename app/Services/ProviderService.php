@@ -156,32 +156,28 @@ class ProviderService
             'name'               => $data['name'],
             'activation_token'  => str_random(60)
         ];
+
         DB::beginTransaction();
-        try {
-            if ($provider = $this->repository->create($providerData)) {
 
-                DB::commit();
+        if ($provider = $this->repository->create($providerData)) {
 
-                $data_send_mail = [
-                    'to' => $providerData['email'],
-                    'subject' => 'Confirmação de Conta',
-                    'provider' => $providerData,
-                    'url_confirmation' => url('/api/provider/activate/'.$providerData['activation_token'])
-                ];
+            DB::commit();
 
-                SendMailBySendGrid::dispatch($data_send_mail, 'confirm_email')->delay(0.5);
-                return response()->json([
-                    'error' => false,
-                    'message' => "Please check you email"
-                ]);
-            }
-        } catch (\Exception $e) {
-            DB::rollBack();
+            $data_send_mail = [
+                'to' => $providerData['email'],
+                'subject' => 'Confirmação de Conta',
+                'provider' => $providerData,
+                'url_confirmation' => url('/api/provider/activate/'.$providerData['activation_token'])
+            ];
+
+            SendMailBySendGrid::dispatch($data_send_mail, 'confirm_email')->delay(0.5);
             return response()->json([
-                'error' => true,
-                'message' => $e->getMessage()
+                'error' => false,
+                'message' => "Please check you email"
             ]);
         }
+
+        DB::rollBack();
     }
 
 
@@ -228,56 +224,49 @@ class ProviderService
     public function updateProvider($id, array $data)
     {
         DB::beginTransaction();
-        try {
-            $this->repository->update($data['personal'], $id);
+        $this->repository->update($data['personal'], $id);
 
-            //saving bank data
-            if($data['bank']) {
-                $data['bank']['provider_id'] = $id;
-                if(isset($data['bank']['id'])) {
-                    $data['bank']['main'] = 1;
-                    $this->bankRepository->update($data['bank'], $data['bank']['id']);
-                } else {
-                    $data['bank']['main'] = 1;
-                    $this->bankRepository->create($data['bank']);
-                }
+        //saving bank data
+        if($data['bank']) {
+            $data['bank']['provider_id'] = $id;
+            if(isset($data['bank']['id'])) {
+                $data['bank']['main'] = 1;
+                $this->bankRepository->update($data['bank'], $data['bank']['id']);
+            } else {
+                $data['bank']['main'] = 1;
+                $this->bankRepository->create($data['bank']);
             }
-
-            //saving address data
-            if($data['address']) {
-                $data['address']['parent_id'] = $id;
-                $data['address']['model'] = 'Providers';
-                if(isset($data['address']['id'])) {
-                    $this->addressRepository->update($data['address'], $data['address']['id']);
-                } else {
-                    $this->addressRepository->create($data['address']);
-                }
-            }
-
-            //saving fidelities data
-            if($data['fidelities']) {
-                foreach($data['fidelities'] as $fidelity) {
-                    $fidelity['provider_id'] = $id;
-                    if(!empty($fidelity['type'])){
-                        $new_cia = $this->programRepository->findByField('code', $fidelity['type'])->first();
-                        $fidelity['program_id'] = $new_cia ? $new_cia['id'] : $fidelity['program_id'];
-                    }
-                    if(isset($fidelity['id'])) {
-                        $this->fidelityRepository->update($fidelity, $fidelity['id']);
-                    } else {
-                        $this->fidelityRepository->create($fidelity);
-                    }
-                }
-            }
-
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return response()->json([
-                'error' => true,
-                'message' => $e->getMessage()
-            ]);
         }
+
+        //saving address data
+        if($data['address']) {
+            $data['address']['parent_id'] = $id;
+            $data['address']['model'] = 'Providers';
+            if(isset($data['address']['id'])) {
+                $this->addressRepository->update($data['address'], $data['address']['id']);
+            } else {
+                $this->addressRepository->create($data['address']);
+            }
+        }
+
+        //saving fidelities data
+        if($data['fidelities']) {
+            foreach($data['fidelities'] as $fidelity) {
+                $fidelity['provider_id'] = $id;
+                if(!empty($fidelity['type'])){
+                    $new_cia = $this->programRepository->findByField('code', $fidelity['type'])->first();
+                    $fidelity['program_id'] = $new_cia ? $new_cia['id'] : $fidelity['program_id'];
+                }
+                if(isset($fidelity['id'])) {
+                    $this->fidelityRepository->update($fidelity, $fidelity['id']);
+                } else {
+                    $this->fidelityRepository->create($fidelity);
+                }
+            }
+        }
+
+        DB::commit();
+        DB::rollBack();
 
         return $this->getProviderData($id);
     }
