@@ -43,4 +43,12 @@ class Order extends AppEntity implements Transformable
         return $this->belongsTo(OrderStatus::class, 'order_status_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function program()
+    {
+        return $this->belongsTo(Program::class, 'program_id');
+    }
+
 }
