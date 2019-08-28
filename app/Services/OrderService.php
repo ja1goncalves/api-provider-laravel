@@ -92,7 +92,6 @@ class OrderService
                     'due_date'                   => Carbon::now()->addDay(1)->format('Y-m-d'),
                     'department'                 => 1,
                     'system_creator'             => 2,
-                    'observation'                => "NÃO CONSTA",
                     'status_modified'            => Carbon::now()->format('Y-m-d H:i'),
                     'order_status_id'            => Order::STATUS_EM_ANALISE,
                     'banks_providers_segment_id' => $bank ? $bank->id : null,
