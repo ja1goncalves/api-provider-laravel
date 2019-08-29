@@ -153,15 +153,14 @@ class ProviderService
             'password'           => bcrypt($data['password']),
             'status_modified'    => $now,
             'email'              => $data['email'],
-            'cpf'                => $data['cpf'],
+            'cpf'                =>  preg_replace('/\D/', '', $data['cpf']),
             'name'               => $data['name'],
-            'activation_token'  => str_random(60)
+            'activation_token'   => str_random(60)
         ];
 
         DB::beginTransaction();
 
-        if (!$this->repository->findByField('cpf', $providerData['cpf'])->first()) {
-            $provider = $this->repository->create($providerData);
+        if ($provider = $this->repository->create($providerData)) {
             DB::commit();
 
             $data_send_mail = [
