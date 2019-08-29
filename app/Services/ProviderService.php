@@ -147,7 +147,7 @@ class ProviderService
     public function create(array $data)
     {
         $now = Carbon::now()->format('Y-m-d H:i');
-        \Log::debug($data);
+
         $providerData = [
             'provider_status_id' => Provider::STATUS_ANALISE,
             'password'           => bcrypt($data['password']),
@@ -158,11 +158,10 @@ class ProviderService
             'activation_token'  => str_random(60)
         ];
 
-        \Log::debug($providerData);
         DB::beginTransaction();
 
-        if ($provider = $this->repository->create($providerData)) {
-
+        if (!$this->repository->findByField('cpf', $providerData['cpf'])->first()) {
+            $provider = $this->repository->create($providerData);
             DB::commit();
 
             $data_send_mail = [
@@ -176,6 +175,11 @@ class ProviderService
             return response()->json([
                 'error' => false,
                 'message' => "Please check you email"
+            ]);
+        }else{
+            return response()->json([
+                'error' => true,
+                'message' => "Forcedor já existe"
             ]);
         }
 
