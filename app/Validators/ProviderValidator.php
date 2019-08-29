@@ -20,7 +20,7 @@ class ProviderValidator extends LaravelValidator
     protected $rules = [
         ValidatorInterface::RULE_CREATE => [
             'name'                      => 'required|max:150',
-            'cpf'                       => 'required|max:25|unique:providers,cpf',
+            'cpf'                       => 'required|unique:providers,cpf|max:25',
             'email'                     => 'required|email|unique:providers,email|max:100',
             'password'                  => 'required|max:60',
             'phone'                     => 'max:15',
@@ -35,6 +35,7 @@ class ProviderValidator extends LaravelValidator
         ],
         ValidatorInterface::RULE_UPDATE => [
             'name'                      => 'sometimes|max:150',
+            'cpf'                       => 'sometimes|unique:providers,cpf|max:25',
             'email'                     => 'sometimes|email|unique:providers,email|max:100',
             'phone'                     => 'sometimes|nullable|max:15',
             'cellphone'                 => 'required|max:15',
