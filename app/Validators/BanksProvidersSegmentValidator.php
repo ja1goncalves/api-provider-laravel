@@ -29,8 +29,8 @@ class BanksProvidersSegmentValidator extends LaravelValidator
             'type'                      => 'required|string',
         ],
         ValidatorInterface::RULE_UPDATE => [
-            'bank_id'                   => 'number|exists:banks,id',
-            'provider_id'               => 'number|exists:providers,id',
+            'bank_id'                   => 'numeric|exists:banks,id',
+            'provider_id'               => 'numeric|exists:providers,id',
             'agency'                    => 'max:25|string',
             'account'                   => 'max:25|string',
             'account_digit'             => 'max:2|string',

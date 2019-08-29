@@ -147,6 +147,7 @@ class ProviderService
     public function create(array $data)
     {
         $now = Carbon::now()->format('Y-m-d H:i');
+        \Log::debug($data);
         $providerData = [
             'provider_status_id' => Provider::STATUS_ANALISE,
             'password'           => bcrypt($data['password']),
@@ -157,6 +158,7 @@ class ProviderService
             'activation_token'  => str_random(60)
         ];
 
+        \Log::debug($providerData);
         DB::beginTransaction();
 
         if ($provider = $this->repository->create($providerData)) {
