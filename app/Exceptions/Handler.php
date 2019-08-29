@@ -71,8 +71,8 @@ class Handler extends ExceptionHandler
 
         $response = [
             'error'   => true,
-            'data'    => implode("\n", $this->parseMessages($bag)),
-            'message' => $bag
+            'message'    => implode("\n", $this->parseMessages($bag)),
+            'data' => $bag
         ];
 
         return response()->json($response, Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -97,8 +97,8 @@ class Handler extends ExceptionHandler
 
         $response = [
             'error'   => true,
-            'data'    => implode("\n", $this->parseMessages($bag)),
-            'message' => $bag
+            'message'    => implode("\n", $this->parseMessages($bag)),
+            'data' => $bag
         ];
 
         return response()->json($response, Response::HTTP_UNPROCESSABLE_ENTITY);
