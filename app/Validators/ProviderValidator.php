@@ -30,7 +30,7 @@ class ProviderValidator extends LaravelValidator
             'status_modified'           => 'required|date',
             'company'                   => 'nullable|max:100',
             'company_phone'             => 'nullable|max:100',
-            'gender'                    => 'required|min:1',
+            'gender'                    => 'nullable|min:1',
             'occupation'                => 'nullable|min:1',
         ],
         ValidatorInterface::RULE_UPDATE => [

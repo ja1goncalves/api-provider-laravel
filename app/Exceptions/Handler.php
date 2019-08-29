@@ -71,7 +71,7 @@ class Handler extends ExceptionHandler
 
         $response = [
             'error'   => true,
-            'data'    => implode(', ', $this->parseMessages($bag)),
+            'data'    => implode("\n", $this->parseMessages($bag)),
             'message' => $bag
         ];
 
@@ -97,7 +97,7 @@ class Handler extends ExceptionHandler
 
         $response = [
             'error'   => true,
-            'data'    => implode(', ', $this->parseMessages($bag)),
+            'data'    => implode("\n", $this->parseMessages($bag)),
             'message' => $bag
         ];
 
