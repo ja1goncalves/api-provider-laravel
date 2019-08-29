@@ -177,6 +177,14 @@ return [
         'restriction'           => 'Restrição',
         'quotation_status_id'   => 'Status da cotação',
         'occupation'            => 'Ocupação',
+        'gender'                => 'Sexo',
+        'bank_id'               => 'Banco',
+        'provider_id'           => 'Fornecedor',
+        'agency'                => 'Agência',
+        'account'               => 'Conta',
+        'account_digit'         => 'Dígito da conta',
+        'agency_digit'          => 'Dígito da agência',
+        'main'                  => 'Titular',
     ],
 
 ];
