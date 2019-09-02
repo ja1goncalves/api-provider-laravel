@@ -2,6 +2,7 @@
 
 namespace App\Entities;
 
+use App\Observers\ProviderObserver;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use Laravel\Passport\HasApiTokens;
@@ -73,7 +74,7 @@ class Provider extends Authenticatable implements Transformable
      */
     public function addresses()
     {
-        return $this->hasMany(Address::class, 'parent_id');
+        return $this->hasMany(Address::class, 'parent_id', 'id');
     }
 
     /**
@@ -90,5 +91,27 @@ class Provider extends Authenticatable implements Transformable
     public function fidelities()
     {
         return $this->hasMany(Fidelity::class, 'provider_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function quotations()
+    {
+        return $this->hasMany(Quotation::class, 'provider_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function pendingEdition()
+    {
+        return $this->hasMany(PendingEdition::class, ['model' => 'Providers']);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+        Provider::observe(ProviderObserver::class);
     }
 }

@@ -133,4 +133,10 @@ return [
 
     'log_channel' => env('MAIL_LOG_CHANNEL'),
 
+    'crm_marketing' => [
+        'username' => env('CRM_USERNAME'),
+        'password' => env('CRM_PASSWORD'),
+        'url' => env('CRM_URL_MARKETING')
+    ]
+
 ];

@@ -22,10 +22,10 @@ class QuotationTransformer extends TransformerAbstract
     public function transform(Quotation $model)
     {
         return array_merge([
-            'id'          => (int) $model->id,
-            'first_order' => $this->getFirstOrder($model),
-            'created_at'  => is_object($model->created) ? $model->created->format('Y-m-d') : $model->created,
-            'updated_at'  => $model->modified,
+            'id'            => (int) $model->id,
+            'status_orders' => $this->getStatusOrders($model),
+            'created_at'    => is_object($model->created) ? $model->created->format('Y-m-d') : $model->created,
+            'updated_at'    => $model->modified,
         ], $this->getPrograms($model));
     }
 
@@ -33,17 +33,17 @@ class QuotationTransformer extends TransformerAbstract
      * @param $model
      * @return array|null
      */
-    private function getFirstOrder($model)
+    private function getStatusOrders($model)
     {
-        $order = null;
+        $status_orders = null;
 
-        if(count($model->orders)) {
-            $order = $model->orders[0];
-            $order = [
-                'status' => $order->status->title
+        foreach ($model->orders as $order) {
+            $status_orders[] = [
+                'status' => $order->status->title,
+                'program' => $order->program->code
             ];
         }
-        return $order;
+        return $status_orders;
     }
 
     /**

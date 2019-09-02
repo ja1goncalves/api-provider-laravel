@@ -8,11 +8,13 @@
 
 namespace App\Services;
 
+use App\Jobs\SendMailBySendGrid;
 use Carbon\Carbon;
 use App\Notifications\PasswordResetRequest;
 use App\Notifications\PasswordResetSuccess;
 use App\Repositories\PasswordResetRepository;
 use App\Repositories\ProviderRepository;
+use Illuminate\Support\Facades\Config;
 
 class PasswordResetService
 {
@@ -31,11 +33,11 @@ class PasswordResetService
         $this->repositoryPasswordReset = $passwordResetRepository;
     }
 
-    public function create($request)
+    public function create($data)
     {
         try{
 
-            $provider = $this->repositoryProvider->skipPresenter()->findByField('email',$request->email)->first();
+            $provider = $this->repositoryProvider->skipPresenter()->findByField('email',$data['email'])->first();
             $passwordReset = $this->repositoryPasswordReset->updateOrCreate(
                 [   'email' => $provider->email],
                 [
@@ -43,8 +45,17 @@ class PasswordResetService
                     'token' => str_random(60)
                 ]
             );
-            if (isset($provider) && isset($passwordReset))
-                $provider->notify( new PasswordResetRequest($passwordReset->token));
+            if (isset($provider) && isset($passwordReset)){
+                $url_front = Config::get('services.provider_front.url');
+                $data_send_mail = [
+                    'to' => $passwordReset->email,
+                    'subject' => 'Mudar senha',
+                    'provider' => $provider,
+                    'url_reset' => url("{$url_front}/recuperar-senha/".$passwordReset->token)
+                ];
+
+                SendMailBySendGrid::dispatch($data_send_mail, 'password_reset')->delay(0.5);
+            }
             return response()->json([
                 'message' => 'We have e-mailed your password reset link!'
             ]);

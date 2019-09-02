@@ -40,4 +40,8 @@ return [
         ],
     ],
 
+    'provider_front' => [
+        'url' => env('PROVIDER_FRONT_URL'),
+    ],
+
 ];

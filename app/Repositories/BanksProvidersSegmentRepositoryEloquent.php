@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Validators\BanksProvidersSegmentValidator;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use App\Entities\BanksProvidersSegment;
@@ -29,7 +30,7 @@ class BanksProvidersSegmentRepositoryEloquent extends BaseRepository implements 
     */
     public function validator()
     {
-
+        return BanksProvidersSegmentValidator::class;
     }
 
 
@@ -41,5 +42,5 @@ class BanksProvidersSegmentRepositoryEloquent extends BaseRepository implements 
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
-    
+
 }

@@ -55,4 +55,13 @@ class QuotationService
                 ['created', '>', Carbon::now()->subDays(2)]
             ]);
     }
+
+    /**
+     * @param $email
+     * @param $provider_id
+     */
+    public function updateByProvider($email, $provider_id)
+    {
+        $this->repository->updateByProvider($email, $provider_id);
+    }
 }

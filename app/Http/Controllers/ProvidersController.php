@@ -45,6 +45,18 @@ class ProvidersController extends Controller
         }
     }
 
+    public function getProviderFidelities() {
+        $provider = $this->service->getProviderByToken();
+        if (isset($provider->id)) {
+            return $this->service->getProviderFidelities($provider->id);
+        }else{
+            return response()->json([
+                'error' => true,
+                'message' => "User not found"
+            ]);
+        }
+    }
+
     /**
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse|mixed

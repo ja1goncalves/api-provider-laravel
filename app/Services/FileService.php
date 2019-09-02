@@ -31,7 +31,7 @@ class FileService
      */
     private function generateName($extension)
     {
-        return time() . time() . '.' . $extension;
+        return md5(rand() . uniqid() . time()) . '.' . strtolower($extension);
     }
 
     /**
@@ -76,7 +76,7 @@ class FileService
      */
     public function uploadBase64Image($file)
     {
-        $fileName = self::generateName(self::getExtensionByMimetype($file['type']));
+        $fileName = self::generateName(self::getExtensionByMimetype($file['filetype']));
 
         if (!Storage::disk('s3')->put($this->defaultPath . $fileName, base64_decode($file['value']))) {
             throw new UploadException();

@@ -1,10 +1,11 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class PasswordReset extends Migration
+class AlterObservationToOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +14,8 @@ class PasswordReset extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('password_resets');
-        Schema::create('password_resets', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('email')->index();
-            $table->string('token');
-            $table->timestamps();
+        Schema::table('orders', function (Blueprint $table) {
+            $table->text('observation')->nullable()->change();
         });
     }
 
@@ -29,6 +26,8 @@ class PasswordReset extends Migration
      */
     public function down()
     {
-        Schema::drop('password_resets');
+        Schema::table('orders', function (Blueprint $table) {
+            //
+        });
     }
 }

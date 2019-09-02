@@ -18,7 +18,7 @@ class PasswordResetController extends Controller
 
     public function create(PasswordCreateRequest $request)
     {
-        return $this->service->create($request);
+        return $this->service->create($request->all());
     }
 
     public function find($token)

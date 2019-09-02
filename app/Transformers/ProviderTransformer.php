@@ -46,7 +46,7 @@ class ProviderTransformer extends TransformerAbstract
     {
         $paddress = null;
         foreach ($model->addresses as $address) {
-            if ($address && $address->address_type == 0) {
+            if ($address && $address->address_type == 1) {
                 $paddress = [
                     "id" => $address->id,
                     "zip_code" => $address->zip_code,
@@ -88,7 +88,7 @@ class ProviderTransformer extends TransformerAbstract
     {
         $bank = null;
         foreach ($model->banks as $bank) {
-            if ($bank && $bank->main == 1) {
+            if ($bank && $bank->main == 0) {
                 $bank = [
                     "id" => $bank->id,
                     "bank_id" => $bank->bank_id,
