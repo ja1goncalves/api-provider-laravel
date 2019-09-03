@@ -64,4 +64,15 @@ class QuotationService
     {
         $this->repository->updateByProvider($email, $provider_id);
     }
+
+    /**
+     * @param $email
+     * @param $field
+     * @param $before
+     * @param $after
+     */
+    public function updateFieldInRegisterProvider($email, $field, $before, $after)
+    {
+        $this->repository->updateFieldInRegisterProvider($email, $field, $before, $after);
+    }
 }

@@ -47,9 +47,17 @@ class QuotationRepositoryEloquent extends BaseRepository implements QuotationRep
 
     public function updateByProvider($email, $provider_id)
     {
-        $this->model->newQuery()
+        return $this->model->newQuery()
             ->where('email', '=', $email)
             ->update(['provider_id' => $provider_id]);
+    }
+
+    public function updateFieldInRegisterProvider($email, $field, $before, $after)
+    {
+        return $this->model->newQuery()
+            ->where('email', '=', $email)
+            ->where($field, '=', $before)
+            ->update([$field => $after]);
     }
 
 }

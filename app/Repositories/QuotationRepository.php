@@ -11,5 +11,19 @@ use Prettus\Repository\Contracts\RepositoryInterface;
  */
 interface QuotationRepository extends RepositoryInterface
 {
+    /**
+     * @param $email
+     * @param $provider_id
+     * @return mixed
+     */
     public function updateByProvider($email, $provider_id);
+
+    /**
+     * @param $email
+     * @param $field
+     * @param $before
+     * @param $after
+     * @return mixed
+     */
+    public function updateFieldInRegisterProvider($email, $field, $before, $after);
 }
