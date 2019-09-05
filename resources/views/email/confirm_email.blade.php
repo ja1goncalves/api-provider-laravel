@@ -94,7 +94,7 @@
                                                     <b>
                                                         Caro(a), {{$data['provider']['name']}}
                                                         <br>
-                                                        Obrigado pela inscrição! Antes de começar, você deve confirmar sua conta.
+                                                        Obrigado pela inscrição! Esse e-mail serve apenas para notificarmos que você realizou o cadastro.
                                                         <br><br>
                                                         Obrigado por usar nosso aplicativo!
                                                     </b>
@@ -114,8 +114,8 @@
                                                     <tbody>
                                                     <tr>
                                                         <td align="center" valign="middle" style="padding-top:5px;padding-bottom:5px;padding-right:20px;padding-left:20px;">
-                                                            <a data-color="Button" data-size="Button" data-min="5" data-max="50" href="{{url($data['url_confirmation'])}}" style="font-weight:700;font-size:15px;letter-spacing:0.000em;line-height:auto;color:#294885;font-family:&#39;Coolvetica&#39;, sans-serif;mso-line-height-rule:exactly;text-decoration:none;">
-                                                                Volte ao site e confirme sua conta...
+                                                            <a data-color="Button" data-size="Button" data-min="5" data-max="50" href="https://elomilhas.com.br/" style="font-weight:700;font-size:15px;letter-spacing:0.000em;line-height:auto;color:#294885;font-family:&#39;Coolvetica&#39;, sans-serif;mso-line-height-rule:exactly;text-decoration:none;">
+                                                                Realize sua primeira cotação
                                                             </a>
                                                         </td>
                                                     </tr>

@@ -53,7 +53,8 @@ Route::group(['prefix' => 'provider'], function () {
         Route::get('fidelities', 'ProvidersController@getProviderFidelities');// Retorna os fidelidades do fornecedor.
 
         //Segments
-        Route::get('segments/{bank_id}',        'SegmentsController@listByBank');// Retorna um banco.
+        Route::get('bank/segments/{bank_id}',        'SegmentsController@listByBank');// Retorna um banco.
+        Route::resource('segments',             'SegmentsController');// Retorna um banco.
 
         //Programs
         Route::get('programs',                  'ProgramsController@index');// Retorna os Programs.

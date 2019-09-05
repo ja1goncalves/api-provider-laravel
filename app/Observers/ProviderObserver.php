@@ -35,6 +35,7 @@ class ProviderObserver
     public function creating(Provider $provider)
     {
         $this->quotationService->updateByProvider($provider->getAttribute('email'), $provider->getAttribute('id'));
+        $this->quotationService->updateFieldInRegisterProvider($provider->getAttribute('email'), 'quotation_status_id', 2, 5);
     }
 
     public function saving(Provider $provider)
