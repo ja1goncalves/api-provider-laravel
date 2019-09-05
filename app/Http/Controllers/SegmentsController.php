@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Traits\CrudMethods;
 use App\Services\SegmentService;
 use App\Validators\SegmentValidator;
 
@@ -12,6 +13,8 @@ use App\Validators\SegmentValidator;
  */
 class SegmentsController extends Controller
 {
+    use CrudMethods;
+
     protected $service;
 
     protected $validator;
