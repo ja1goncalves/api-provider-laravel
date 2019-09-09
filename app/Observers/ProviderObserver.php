@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use \App\Entities\Provider;
 use App\Entities\Quotation;
+use App\Jobs\SendMailBySendGrid;
 use App\Services\PendingEditionService;
 use App\Services\QuotationService;
 
@@ -34,7 +35,6 @@ class ProviderObserver
 
     public function creating(Provider $provider)
     {
-        $this->quotationService->updateByProvider($provider->getAttribute('email'), $provider->getAttribute('id'));
         $this->quotationService->updateFieldInRegisterProvider($provider->getAttribute('email'), 'quotation_status_id', 2, 5);
     }
 
@@ -60,5 +60,24 @@ class ProviderObserver
         $change = $this->pendingEditionService->beforeSave($provider, $fields, 'Providers');
 
         return !$change;
+    }
+
+    public function created(Provider $provider)
+    {
+        $quotations = $this->quotationService->updateByProvider($provider->getAttribute('email'), $provider->getAttribute('id'));
+
+        $data_send_mail = [
+            'to' => $provider->getAttribute('email'),
+            'subject' => 'Confirmação de Conta',
+            'provider' => $provider,
+            'button' => 'Realize mais cotações!',
+            'url_confirmation' => url('/api/provider/activate/'.$provider->getAttribute('activation_token'))
+        ];
+
+        if($quotations){
+            $data_send_mail['button'] = 'Realize sua primeira cotação!';
+        }
+
+        SendMailBySendGrid::dispatch($data_send_mail, 'confirm_email')->delay(0.5);
     }
 }
