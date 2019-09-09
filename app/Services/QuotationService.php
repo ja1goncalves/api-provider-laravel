@@ -59,10 +59,11 @@ class QuotationService
     /**
      * @param $email
      * @param $provider_id
+     * @return mixed
      */
     public function updateByProvider($email, $provider_id)
     {
-        $this->repository->updateByProvider($email, $provider_id);
+        return $this->repository->updateByProvider($email, $provider_id);
     }
 
     /**

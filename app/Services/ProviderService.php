@@ -8,10 +8,7 @@
 
 namespace App\Services;
 
-use App\Entities\Fidelity;
 use App\Entities\Provider;
-use App\Jobs\SendMailBySendGrid;
-use App\Notifications\SignupActivate;
 use App\Presenters\ProviderPresenter;
 use App\Repositories\AddressRepository;
 use App\Repositories\BanksProvidersSegmentRepository;
@@ -121,17 +118,9 @@ class ProviderService
 
                 DB::commit();
 
-                $data_send_mail = [
-                    'to' => $providerData['email'],
-                    'subject' => 'Confirmação de Conta',
-                    'provider' => $providerData,
-                    'url_confirmation' => url('/api/provider/activate/'.$providerData['activation_token'])
-                ];
-
-                SendMailBySendGrid::dispatch($data_send_mail, 'confirm_email')->delay(0.5);
                 return response()->json([
                     'error' => false,
-                    'message' => "Please check you email"
+                    'message' => "Provider create by quotation with success!"
                 ]);
             }
         } catch (\Exception $e) {
@@ -163,17 +152,9 @@ class ProviderService
         if ($provider = $this->repository->create($providerData)) {
             DB::commit();
 
-            $data_send_mail = [
-                'to' => $providerData['email'],
-                'subject' => 'Confirmação de Conta',
-                'provider' => $providerData,
-                'url_confirmation' => url('/api/provider/activate/'.$providerData['activation_token'])
-            ];
-
-            SendMailBySendGrid::dispatch($data_send_mail, 'confirm_email')->delay(0.5);
             return response()->json([
                 'error' => false,
-                'message' => "Please check you email"
+                'message' => "Provider create with success!"
             ]);
         }else{
             return response()->json([
