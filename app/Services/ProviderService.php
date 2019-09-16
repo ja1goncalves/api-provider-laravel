@@ -106,6 +106,8 @@ class ProviderService
             'email'              => $data['email'],
             'cpf'                => $data['cpf'],
             'name'               => $data['name'],
+            'phone'              => preg_replace('/\D/', '', $data['phone'] ?? ''),
+            'cellphone'          => preg_replace('/\D/', '', $data['cellphone'] ?? ''),
             'activation_token'  => str_random(60)
         ];
 
