@@ -38,7 +38,7 @@ class ProviderValidator extends LaravelValidator
             'cpf'                       => 'sometimes|unique:providers,cpf|max:15',
             'email'                     => 'sometimes|email|unique:providers,email|max:100',
             'phone'                     => 'sometimes|nullable|max:15',
-            'cellphone'                 => 'required|max:15',
+            'cellphone'                 => 'sometimes|max:15',
             'password'                  => 'sometimes|max:60',
             'provider_status_id'        => 'sometimes|numeric',
             'birthday'                  => 'sometimes|date',
