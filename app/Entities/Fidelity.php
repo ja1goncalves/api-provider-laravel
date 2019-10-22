@@ -33,4 +33,12 @@ class Fidelity extends AppEntity implements Transformable
     {
         return $this->belongsTo(Provider::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function program()
+    {
+        return $this->hasMany(Program::class, 'id', 'program_id');
+    }
 }

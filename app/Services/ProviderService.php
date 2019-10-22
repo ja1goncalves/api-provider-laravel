@@ -186,7 +186,7 @@ class ProviderService
         return $this->repository
             ->setPresenter(ProviderPresenter::class)
             ->with('banks')
-            ->with('fidelities')
+            ->with('fidelities.program')
             ->with('addresses')
             ->find($id);
     }
