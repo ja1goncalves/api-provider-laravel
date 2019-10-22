@@ -224,8 +224,8 @@ class ProviderService
                 $this->bankRepository->update($data['bank'], $data['bank']['id']);
             } else {
                 $data['bank']['main'] = 1;
-                $data['bank']['account_digit'] = $data['bank']['account_digit'] ? $data['bank']['account_digit'] : " ";
-                $data['bank']['agency_digit'] = $data['bank']['agency_digit'] ? $data['bank']['agency_digit'] : " ";
+                $data['bank']['account_digit'] = $data['bank']['account_digit'] ? $data['bank']['account_digit'] : "X";
+                $data['bank']['agency_digit'] = $data['bank']['agency_digit'] ? $data['bank']['agency_digit'] : "X";
                 $this->bankRepository->create($data['bank']);
             }
         }
