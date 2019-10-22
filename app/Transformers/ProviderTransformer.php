@@ -74,7 +74,8 @@ class ProviderTransformer extends TransformerAbstract
                 "id" => $fidelity->id,
                 "program_id"  => $fidelity->program_id,
                 "card_number" => $fidelity->card_number,
-                "access_password" => $fidelity->access_password
+                "access_password" => $fidelity->access_password,
+                "code" => $fidelity->program[0]->code
             ];
         }
         return $fidelities;
