@@ -219,13 +219,12 @@ class ProviderService
         //saving bank data
         if($data['bank']) {
             $data['bank']['provider_id'] = $id;
+            $data['bank']['account_digit'] = $data['bank']['account_digit'] ? $data['bank']['account_digit'] : "X";
+            $data['bank']['agency_digit'] = $data['bank']['agency_digit'] ? $data['bank']['agency_digit'] : "X";
+            $data['bank']['main'] = 1;
             if(isset($data['bank']['id'])) {
-                $data['bank']['main'] = 1;
                 $this->bankRepository->update($data['bank'], $data['bank']['id']);
             } else {
-                $data['bank']['main'] = 1;
-                $data['bank']['account_digit'] = $data['bank']['account_digit'] ? $data['bank']['account_digit'] : "X";
-                $data['bank']['agency_digit'] = $data['bank']['agency_digit'] ? $data['bank']['agency_digit'] : "X";
                 $this->bankRepository->create($data['bank']);
             }
         }
