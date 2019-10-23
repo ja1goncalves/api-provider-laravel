@@ -114,7 +114,7 @@ class PasswordResetService
 
         $this->repositoryProvider->update($providerdata,$provider->id);
 
-        $passwordReset->notify(new PasswordResetSuccess());
+//        $passwordReset->notify(new PasswordResetSuccess()); // Ver erro
         $this->repositoryPasswordReset->delete($passwordReset->id);
 
         return response()->json([
