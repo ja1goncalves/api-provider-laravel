@@ -8,6 +8,7 @@
 
 namespace App\Services;
 
+use App\Entities\Provider;
 use App\Jobs\SendMailBySendGrid;
 use Carbon\Carbon;
 use App\Notifications\PasswordResetRequest;
@@ -101,18 +102,21 @@ class PasswordResetService
             ], 404);
 
         $provider = $this->repositoryProvider->findByField('email', $passwordReset->email)->first();
-        if (!isset($provider)) {
 
+        if (!$provider) {
             return response()->json([
                 'message' => "We can't find a user with that e-mail address."
             ], 404);
         }
 
-        $providerdata = [
-            'password' => bcrypt($request->password)
-        ];
+//        $providerdata = [
+//            'password' => bcrypt($request->password)
+//        ];
+//        $this->repositoryProvider->update($providerdata,$provider->id);
 
-        $this->repositoryProvider->update($providerdata,$provider->id);
+        $provider = Provider::where('email', $passwordReset->email)->first();
+        $provider->password = bcrypt($request->password);
+        $provider->save();
 
 //        $passwordReset->notify(new PasswordResetSuccess()); // Ver erro
         $this->repositoryPasswordReset->delete($passwordReset->id);
