@@ -74,7 +74,7 @@ class PasswordResetService
                 'message' => 'This password reset token is invalid.'
             ], 404);
 
-        if (Carbon::parse($passwordReset->updated_at)->addMinutes(60)->isPast()) {
+        if (Carbon::parse($passwordReset->updated_at)->addHours(6)->isPast()) {
 
             $this->repositoryPasswordReset->delete($passwordReset->id);
 
