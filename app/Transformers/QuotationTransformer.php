@@ -55,15 +55,15 @@ class QuotationTransformer extends TransformerAbstract
         $programs = [];
         $total    = 0;
 
-        foreach($model->programs as $program) {
+        foreach($model->programsQuotations as $program) {
             $total += $program->price;
-            $programs[] = [
+            $programs[$program->program->code]['title'] = $program->program->title;
+            $programs[$program->program->code]['id'] = $program->program->id;
+            $programs[$program->program->code][$program->payment_form_id] = [
                 'id' => $program->id,
                 'value' => $program->value,
                 'price' => $program->price,
-                'program_title' => $program->program->title,
-                'program_code' => $program->program->code,
-                'program_id' => $program->program->id,
+                'payment_form' => $program->paymentForms->title
             ];
         }
 

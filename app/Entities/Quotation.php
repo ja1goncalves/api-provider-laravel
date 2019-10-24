@@ -26,7 +26,7 @@ class Quotation extends AppEntity implements Transformable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function programs()
+    public function programsQuotations()
     {
         return $this->hasMany(ProgramsQuotation::class, 'quotation_id');
     }
