@@ -118,7 +118,14 @@ class PasswordResetService
         $provider->password = bcrypt($request->password);
         $provider->save();
 
-//        $passwordReset->notify(new PasswordResetSuccess()); // Ver erro
+        $data_send_mail = [
+            'to' => $passwordReset->email,
+            'subject' => 'Sua senha foi alterada',
+            'provider' => $provider,
+        ];
+
+        SendMailBySendGrid::dispatch($data_send_mail, 'password_change')->delay(0.5);
+
         $this->repositoryPasswordReset->delete($passwordReset->id);
 
         return response()->json([
