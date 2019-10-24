@@ -40,6 +40,10 @@ class ProviderObserver
 
     public function saving(Provider $provider)
     {
+        if ($provider->isDirty('password')) {
+            return true;
+        }
+
         if (isset($provider->cpf)) {
             $provider->cpf = preg_replace('/\D/', '', $provider->cpf);
         }
