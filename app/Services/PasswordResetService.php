@@ -8,6 +8,7 @@
 
 namespace App\Services;
 
+use App\Entities\Provider;
 use App\Jobs\SendMailBySendGrid;
 use Carbon\Carbon;
 use App\Notifications\PasswordResetRequest;
@@ -74,7 +75,7 @@ class PasswordResetService
                 'message' => 'This password reset token is invalid.'
             ], 404);
 
-        if (Carbon::parse($passwordReset->updated_at)->addMinutes(60)->isPast()) {
+        if (Carbon::parse($passwordReset->updated_at)->addHours(6)->isPast()) {
 
             $this->repositoryPasswordReset->delete($passwordReset->id);
 
@@ -101,20 +102,23 @@ class PasswordResetService
             ], 404);
 
         $provider = $this->repositoryProvider->findByField('email', $passwordReset->email)->first();
-        if (!isset($provider)) {
 
+        if (!$provider) {
             return response()->json([
                 'message' => "We can't find a user with that e-mail address."
             ], 404);
         }
 
-        $providerdata = [
-            'password' => bcrypt($request->password)
-        ];
+//        $providerdata = [
+//            'password' => bcrypt($request->password)
+//        ];
+//        $this->repositoryProvider->update($providerdata,$provider->id);
 
-        $this->repositoryProvider->update($providerdata,$provider->id);
+        $provider = Provider::where('email', $passwordReset->email)->first();
+        $provider->password = bcrypt($request->password);
+        $provider->save();
 
-        $passwordReset->notify(new PasswordResetSuccess());
+//        $passwordReset->notify(new PasswordResetSuccess()); // Ver erro
         $this->repositoryPasswordReset->delete($passwordReset->id);
 
         return response()->json([
