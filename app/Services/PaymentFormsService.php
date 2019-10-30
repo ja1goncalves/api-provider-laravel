@@ -22,6 +22,6 @@ class PaymentFormsService
 
     public function all($limit = 20)
     {
-        return $this->repository->findWhere(['parent_id' => null], ['title', 'id'])->paginate($limit);
+        return $this->repository->findWhere(['parent_id' => null], ['title', 'id']);
     }
 }

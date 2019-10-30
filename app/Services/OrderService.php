@@ -98,23 +98,26 @@ class OrderService
                 ];
 
                 $order = $this->repository->create($data);
-                $ordersPrograms = [];
-                foreach($op['files'] as $file){
 
-                    $order_program = [
-                        'order_id'          => $order->id,
-                        'program_id'        => $op['id'], // program_id
-                        'number'            => $op['number'],
-                        'file'              => $file ? $this->fileService->uploadBase64Image($file) : '',
-                        'provider_id'       => $data['provider_id'],
-                        'access_password'   => $op['access_password'] ?? null,
-                        'file_dir'	        => $file ? $file['filename'] : null
-                    ];
+                if(!empty($op['files'])){
+                    $ordersPrograms = [];
+                    foreach($op['files'] as $file){
 
-                    $ordersPrograms[] = $this->orderProgramsRepository->create($order_program);
+                        $order_program = [
+                            'order_id'          => $order->id,
+                            'program_id'        => $op['id'], // program_id
+                            'number'            => $op['number'],
+                            'file'              => $file ? $this->fileService->uploadBase64Image($file) : '',
+                            'provider_id'       => $data['provider_id'],
+                            'access_password'   => $op['access_password'] ?? null,
+                            'file_dir'	        => $file ? $file['filename'] : null
+                        ];
+
+                        $ordersPrograms[] = $this->orderProgramsRepository->create($order_program);
+                    }
+
+                    $order['$orders_programs'] = $ordersPrograms;
                 }
-
-                $order['$orders_programs'] = $ordersPrograms;
                 $orders[] = $order;
             }
 
