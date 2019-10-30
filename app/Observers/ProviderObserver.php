@@ -35,6 +35,10 @@ class ProviderObserver
 
     public function creating(Provider $provider)
     {
+        if (isset($provider->cpf)) {
+            $provider->cpf = preg_replace('/\D/', '', $provider->cpf);
+        }
+
         $this->quotationService->updateFieldInRegisterProvider($provider->getAttribute('email'), 'quotation_status_id', 2, 5);
     }
 
