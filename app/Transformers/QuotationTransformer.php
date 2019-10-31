@@ -40,7 +40,8 @@ class QuotationTransformer extends TransformerAbstract
         foreach ($model->orders as $order) {
             $status_orders[] = [
                 'status' => $order->status->title,
-                'program' => $order->program->code
+                'program' => $order->program->code,
+                'price' => $order->price
             ];
         }
         return $status_orders;
