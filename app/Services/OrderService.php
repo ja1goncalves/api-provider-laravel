@@ -95,6 +95,7 @@ class OrderService
                     'status_modified'            => Carbon::now()->format('Y-m-d H:i'),
                     'order_status_id'            => Order::STATUS_EM_ANALISE,
                     'banks_providers_segment_id' => $bank ? $bank->id : null,
+                    'payment_form_id'            => $op['payment_form_id']
                 ];
 
                 $order = $this->repository->create($data);
