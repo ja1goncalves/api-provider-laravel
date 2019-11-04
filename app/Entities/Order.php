@@ -31,6 +31,7 @@ class Order extends AppEntity implements Transformable
         'order_status_id',
         'banks_providers_segment_id',
         'status_modified',
+        'payment_form_id'
     ];
 
     const STATUS_EM_ANALISE = 8;

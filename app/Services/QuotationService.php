@@ -50,7 +50,9 @@ class QuotationService
         return $this->repository
             ->orderBy('created', 'desc')
             ->setPresenter(QuotationsPresenter::class)
-            ->with('programs.program')->with('orders.status')
+            ->with('programsQuotations.program')
+            ->with('orders.status')
+            ->with('programsQuotations.paymentForms')
             ->findWhere(['provider_id' => $provider->id,
                 ['created', '>', Carbon::now()->subDays(2)]
             ]);
