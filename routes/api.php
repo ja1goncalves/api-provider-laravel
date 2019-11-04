@@ -50,10 +50,10 @@ Route::group(['prefix' => 'provider'], function () {
         Route::get('banks',                     'BanksController@listAll');// Retorna os bancos.
 
         //Fidelities
-        Route::get('fidelities', 'ProvidersController@getProviderFidelities');// Retorna os fidelidades do fornecedor.
+        Route::get('fidelities',                'ProvidersController@getProviderFidelities');// Retorna os fidelidades do fornecedor.
 
         //Segments
-        Route::get('bank/segments/{bank_id}',        'SegmentsController@listByBank');// Retorna um banco.
+        Route::get('bank/segments/{bank_id}',   'SegmentsController@listByBank');// Retorna um banco.
         Route::resource('segments',             'SegmentsController');// Retorna um banco.
 
         //Programs
@@ -62,6 +62,9 @@ Route::group(['prefix' => 'provider'], function () {
 
         //Orders
         Route::resource('orders',               'OrdersController', ['except' => ['edit', 'delete', 'index']]);// Crud de orders
+
+        //PaymentForms
+        Route::resource('payment-forms',        'PaymentFormsController', ['except' => ['edit', 'delete', 'store']]);
     });
 });
 

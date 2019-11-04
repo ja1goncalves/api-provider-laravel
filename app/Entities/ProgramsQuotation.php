@@ -30,4 +30,20 @@ class ProgramsQuotation extends AppEntity implements Transformable
     {
         return $this->belongsTo(Program::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function quotation()
+    {
+        return $this->belongsTo(Quotation::class, 'quotation_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function paymentForms()
+    {
+        return $this->belongsTo(PaymentForm::class, 'payment_form_id');
+    }
 }
