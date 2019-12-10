@@ -35,7 +35,7 @@ pipelines:
           script:
             - cat .env
             - cp .env prod.env
-            - pipe: atlassian/rsync-deploy:0.3.2
+            - pipe: atlassian/rsync-deploy:latest
               variables:
                 USER: $SSH_USER_PRODUCTION
                 SERVER: $SSH_HOST_PRODUCTION
