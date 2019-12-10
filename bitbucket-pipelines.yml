@@ -33,19 +33,20 @@ pipelines:
             - docker
           deployment: production
           script:
+            - cp $ENV_FILE .env
             - pipe: atlassian/rsync-deploy:0.3.2
               variables:
                 USER: $SSH_USER_PRODUCTION
                 SERVER: $SSH_HOST_PRODUCTION
                 REMOTE_PATH: '/usr/share/nginx/api-fornecedor.elomilhas.com.br/'
                 LOCAL_PATH: '*'
-                EXTRA_ARGS: '--chown=www-data:www-data --chmod=ug=rwx,o=r --exclude=.git'
-                DEBUG: 'false'
+                EXTRA_ARGS: '--chown=www-data:www-data --chmod=ug=rwx,o=r --exclude=.git/** --exclude=node_modules/**'
       - step:
           name: Clear Cache
           script:
             - ls -la
-            - ssh -o ConnectTimeout=10 $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION 'cd /usr/share/nginx/api-fornecedor.elomilhas.com.br; chown www-data:www-data -R vendor; chmod ug=rwx,o=r -R vendor; echo "cleared"'
+            - ssh -o ConnectTimeout=10 $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION 'cd /usr/share/nginx/api-fornecedor.elomilhas.com.br; chown www-data:www-data -R vendor; chmod ug=rwx,o=r -R vendor; echo "permissions changed"'
+            - ssh -o ConnectTimeout=10 $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION 'cd /usr/share/nginx/api-fornecedor.elomilhas.com.br; composer dump; php artisan route:clear; php artisan config:clear; echo "cleared"'
 definitions:
   caches:
     npm: $HOME/.npm
