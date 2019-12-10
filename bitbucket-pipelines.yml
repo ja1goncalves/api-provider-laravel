@@ -45,7 +45,7 @@ pipelines:
       - step:
           name: Clear Cache
           script:
-            - ssh -o ConnectTimeout=10 $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION 'cd /usr/share/nginx/api-fornecedor.elomilhas.com.br; chown www-data:www-data -R vendor; chmod ug=rwx,o=r -R vendor; echo "permissions changed"'
+            - ssh -o ConnectTimeout=10 $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION 'cd /usr/share/nginx/api-fornecedor.elomilhas.com.br; chown www-data:www-data -R .; chown www-data:www-data -R vendor; chmod ug=rwx,o=r -R vendor; echo "permissions changed"'
             - ssh -o ConnectTimeout=10 $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION 'cd /usr/share/nginx/api-fornecedor.elomilhas.com.br; mv prod.env .env; composer dump; php artisan route:clear; php artisan config:clear'
 definitions:
   caches:
