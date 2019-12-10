@@ -17,11 +17,11 @@ pipelines:
             - apk update
             - apk add zip
             - composer global require hirak/prestissimo
-            - echo $BITBUCKET_COMMIT > build.txt
             - cp .env.prod .env
+            - echo COMMIT=$BITBUCKET_COMMIT >> .env
             - composer install --optimize-autoloader --no-interaction
             - ls -la
-            - cat build.txt
+            - cat .env
           artifacts:
             - vendor/**
             - .env
@@ -33,6 +33,7 @@ pipelines:
             - docker
           deployment: production
           script:
+            - cat .env
             - cp .env.prod .env
             - pipe: atlassian/rsync-deploy:0.3.2
               variables:
