@@ -5,7 +5,7 @@ pipelines:
     master:
       - step:
           name: Install, build and tests
-          image: jguyomard/laravel-php:7.3
+          image: jguyomard/laravel-php:7.1
           services:
             - docker
           caches:
@@ -33,7 +33,6 @@ pipelines:
             - docker
           deployment: production
           script:
-            - cp $ENV_FILE .env
             - pipe: atlassian/rsync-deploy:0.3.2
               variables:
                 USER: $SSH_USER_PRODUCTION
