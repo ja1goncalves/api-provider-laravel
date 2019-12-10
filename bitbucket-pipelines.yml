@@ -27,10 +27,6 @@ pipelines:
             - .env
       - step:
           name: Deploy to EC2
-          services:
-            - docker
-          caches:
-            - docker
           deployment: production
           script:
             - cat .env
