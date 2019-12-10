@@ -19,7 +19,7 @@ pipelines:
             - composer global require hirak/prestissimo
             - echo $BITBUCKET_COMMIT > build.txt
             - cp .env.prod .env
-            - composer install
+            - composer install --optimize-autoloader --no-interaction
             - ls -la
             - cat build.txt
           artifacts:
