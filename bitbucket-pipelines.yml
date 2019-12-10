@@ -47,7 +47,7 @@ pipelines:
           script:
             - ssh -o ConnectTimeout=10 $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION 'cd /usr/share/nginx/api-fornecedor.elomilhas.com.br; chown www-data:www-data -R .; chown www-data:www-data -R vendor; chmod ug=rwx,o=r -R vendor; echo "permissions changed"'
             - ssh -o ConnectTimeout=10 $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION 'find /usr/share/nginx/api-fornecedor.elomilhas.com.br -type f -exec chmod 644 {} \; && find /usr/share/nginx/api-fornecedor.elomilhas.com.br -type d -exec chmod 755 {} \; && echo "permissions changed"'
-            - ssh -o ConnectTimeout=10 $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION 'cd /usr/share/nginx/api-fornecedor.elomilhas.com.br; chgrp -R www-data storage bootstrap/cache; chmod -R ug+rwx storage bootstrap/cache; echo "permissions changed"'
+            - ssh -o ConnectTimeout=10 $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION 'cd /usr/share/nginx/api-fornecedor.elomilhas.com.br; chgrp -R www-data storage bootstrap/cache; chmod -R ug+rwx storage bootstrap/cache; chown www-data:www-data storage/oauth-*.key; chmod 600 storage/oauth-*.key; echo "permissions changed"'
             - ssh -o ConnectTimeout=10 $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION 'cd /usr/share/nginx/api-fornecedor.elomilhas.com.br; mv prod.env .env; composer dump; php artisan route:clear; php artisan config:clear'
             - ssh -o ConnectTimeout=10 $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION 'cd /usr/share/nginx/api-fornecedor.elomilhas.com.br; php artisan migrate'
 definitions:
