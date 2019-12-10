@@ -1,0 +1,25 @@
+version: '3.5'
+
+networks:
+  provider-application:
+    name: provider-application
+    driver: bridge
+  crm-database:
+    name: crm-database
+    external: true
+
+services:
+  # API PROVIDER
+  provider-app:
+    build: .
+    container_name: api-provider-app
+    restart: always
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "2000:80"
+    networks:
+      - provider-application
+      - crm-database
+    extra_hosts:
+      - "provider.test:127.0.0.1"
