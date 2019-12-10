@@ -1,0 +1,47 @@
+image: node:8.16.2
+
+pipelines:
+  branches:
+    master:
+      - step:
+          name: Install, build and tests
+          image: jguyomard/laravel-php:7.3
+          services:
+            - docker
+          caches:
+            - docker
+            - node
+            - npm
+            - composer
+          script:
+            - apk update
+            - apk add zip
+            - composer global require hirak/prestissimo
+            - ls
+            - echo $BITBUCKET_COMMIT > build.txt
+            - cp .env.prod .env
+            - composer install
+      - step:
+          name: Deploy to EC2
+          services:
+            - docker
+          caches:
+            - docker
+          deployment: production
+          script:
+            - pipe: atlassian/rsync-deploy:0.3.2
+              variables:
+                USER: $SSH_USER_PRODUCTION
+                SERVER: $SSH_HOST_PRODUCTION
+                REMOTE_PATH: '/usr/share/nginx/api-fornecedor.elomilhas.com.br/'
+                LOCAL_PATH: '*'
+                EXTRA_ARGS: '--chown=www-data:www-data --chmod=ug=rwx,o=r --exclude=.git'
+                DEBUG: 'false'
+      - step:
+          name: Clear Cache
+          script:
+            - ls
+            - ssh -o ConnectTimeout=10 $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION 'cd /usr/share/nginx/api-fornecedor.elomilhas.com.br; chown www-data:www-data -R vendor; chmod ug=rwx,o=r -R vendor'
+definitions:
+  caches:
+    npm: $HOME/.npm
