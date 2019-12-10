@@ -33,8 +33,11 @@ pipelines:
             - docker
           deployment: production
           script:
+            - cat .gitignore
+            - sed "/.env/d" < .gitignore > .gitignore
+            - cat .gitignore
             - cat .env
-            - cp .env prod.env
+#            - cp .env prod.env
             - pipe: atlassian/rsync-deploy:0.3.2
               variables:
                 USER: $SSH_USER_PRODUCTION
