@@ -34,14 +34,14 @@ pipelines:
           deployment: production
           script:
             - cat .env
-            - cp .env.prod .env
+            - cp .env prod.env
             - pipe: atlassian/rsync-deploy:0.3.2
               variables:
                 USER: $SSH_USER_PRODUCTION
                 SERVER: $SSH_HOST_PRODUCTION
                 REMOTE_PATH: '/usr/share/nginx/api-fornecedor.elomilhas.com.br/'
                 LOCAL_PATH: '*'
-                EXTRA_ARGS: '-avz --chown=www-data:www-data --chmod=ug=rwx,o=r --exclude=.git/** --exclude=node_modules/** --include=.env'
+                EXTRA_ARGS: '--chown=www-data:www-data --chmod=ug=rwx,o=r --exclude=.git/** --exclude=node_modules/**'
       - step:
           name: Clear Cache
           script:
