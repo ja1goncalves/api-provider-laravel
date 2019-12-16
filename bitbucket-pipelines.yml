@@ -31,8 +31,7 @@ pipelines:
           deployment: production
           script:
             - cat .env
-            - cp .env prod.env
-            - rsync -avz --exclude=.git --chown=www-data:www-data --chmod=ug=rwx,o=r * $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION:/usr/share/nginx/api-fornecedor.elomilhas.com.br/
+            - rsync -avz --exclude=.git/** --exclude=node_modules/** --chown=www-data:www-data --chmod=ug=rwx,o=r * $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION:/usr/share/nginx/api-fornecedor.elomilhas.com.br/
 #            - pipe: atlassian/rsync-deploy:latest
 #              variables:
 #                USER: $SSH_USER_PRODUCTION
