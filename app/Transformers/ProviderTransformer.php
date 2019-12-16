@@ -22,6 +22,7 @@ class ProviderTransformer extends TransformerAbstract
     public function transform(Provider $model)
     {
         return [
+            "version" => "1.0.0",
             "personal" => [
                 "birthday"      => $model->birthday,
                 "gender"        => $model->gender,
