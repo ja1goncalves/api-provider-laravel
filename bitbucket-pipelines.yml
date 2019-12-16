@@ -31,20 +31,22 @@ pipelines:
           script:
             - cat .env
             - cp .env prod.env
-            - pipe: atlassian/rsync-deploy:latest
-              variables:
-                USER: $SSH_USER_PRODUCTION
-                SERVER: $SSH_HOST_PRODUCTION
-                REMOTE_PATH: '/usr/share/nginx/api-fornecedor.elomilhas.com.br/'
-                LOCAL_PATH: '*'
-                EXTRA_ARGS: '-avz --max-delete=0 --chown=www-data:www-data --chmod=ug=rwx,o=r --exclude=.git/** --exclude=node_modules/** --include=.env'
+            - rsync -avz --exclude=.git --chown=www-data:www-data --chmod=ug=rwx,o=r * $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION:/usr/share/nginx/api-fornecedor.elomilhas.com.br/
+#            - pipe: atlassian/rsync-deploy:latest
+#              variables:
+#                USER: $SSH_USER_PRODUCTION
+#                SERVER: $SSH_HOST_PRODUCTION
+#                REMOTE_PATH: '/usr/share/nginx/api-fornecedor.elomilhas.com.br/'
+#                LOCAL_PATH: '*'
+#                EXTRA_ARGS: '-avz --max-delete=0 --chown=www-data:www-data --chmod=ug=rwx,o=r --exclude=.git/** --exclude=node_modules/** --include=.env'
       - step:
           name: Clear Cache
           script:
             - ssh -o ConnectTimeout=10 $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION 'cd /usr/share/nginx/api-fornecedor.elomilhas.com.br; chown www-data:www-data -R .; chown www-data:www-data -R vendor; chmod ug=rwx,o=r -R vendor; echo "permissions changed"'
             - ssh -o ConnectTimeout=10 $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION 'find /usr/share/nginx/api-fornecedor.elomilhas.com.br -type f -exec chmod 644 {} \; && find /usr/share/nginx/api-fornecedor.elomilhas.com.br -type d -exec chmod 755 {} \; && echo "permissions changed"'
             - ssh -o ConnectTimeout=10 $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION 'cd /usr/share/nginx/api-fornecedor.elomilhas.com.br; chgrp -R www-data storage bootstrap/cache; chmod -R ug+rwx storage bootstrap/cache; chown www-data:www-data storage/oauth-*.key; chmod 600 storage/oauth-*.key; echo "permissions changed"'
-            - ssh -o ConnectTimeout=10 $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION 'cd /usr/share/nginx/api-fornecedor.elomilhas.com.br; mv prod.env .env; composer dump; php artisan route:clear; php artisan config:clear'
+#            - ssh -o ConnectTimeout=10 $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION 'cd /usr/share/nginx/api-fornecedor.elomilhas.com.br; mv prod.env .env; composer dump; php artisan route:clear; php artisan config:clear'
+            - ssh -o ConnectTimeout=10 $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION 'cd /usr/share/nginx/api-fornecedor.elomilhas.com.br; composer dump; php artisan route:clear; php artisan config:clear'
             - ssh -o ConnectTimeout=10 $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION 'cd /usr/share/nginx/api-fornecedor.elomilhas.com.br; php artisan migrate'
 definitions:
   caches:
