@@ -27,6 +27,7 @@ pipelines:
             - .env
       - step:
           name: Deploy to EC2
+          image: eeacms/rsync
           deployment: production
           script:
             - cat .env
