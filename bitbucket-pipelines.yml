@@ -1,0 +1,52 @@
+image: node:8.16.2
+
+pipelines:
+  branches:
+    master:
+      - step:
+          name: Install, build and tests
+          image: jguyomard/laravel-php:7.1
+          services:
+            - docker
+          caches:
+            - docker
+            - node
+            - npm
+            - composer
+          script:
+            - apk update
+            - apk add zip
+            - composer global require hirak/prestissimo
+            - cp .env.prod .env
+            - echo COMMIT=$BITBUCKET_COMMIT >> .env
+            - composer install --optimize-autoloader --no-interaction --prefer-dist --ignore-platform-reqs
+            - ls -la
+            - cat .env
+          artifacts:
+            - vendor/**
+            - .env
+      - step:
+          name: Deploy to EC2
+          image: eeacms/rsync
+          deployment: production
+          script:
+            - rsync -avz --exclude=.git --chown=www-data:www-data --chmod=ug=rwx,o=r . $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION:/usr/share/nginx/api-fornecedor.elomilhas.com.br/
+      - step:
+          name: Clear Cache
+          script:
+            # Da Erro se usar              - ssh -o ConnectTimeout=10 $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION 'find /usr/share/nginx/api-fornecedor.elomilhas.com.br -type f -exec chmod 644 {} \; && find /usr/share/nginx/api-fornecedor.elomilhas.com.br -type d -exec chmod 755 {} \; && echo "permissions changed"'
+            # Fix permissions
+            - ssh -o ConnectTimeout=10 $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION 'cd /usr/share/nginx/api-fornecedor.elomilhas.com.br; chown www-data:www-data -R .; chmod ug=rwx,o=r -R vendor; echo "permissions changed"'
+            # Da Erro se usar             - ssh -o ConnectTimeout=10 $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION 'cd /usr/share/nginx/api-fornecedor.elomilhas.com.br; chgrp -R www-data storage bootstrap/cache; chmod -R ug+rwx storage bootstrap/cache; chown www-data:www-data storage/oauth-*.key; chmod 600 storage/oauth-*.key; echo "permissions changed"'
+            # Clear Cache
+            - ssh -o ConnectTimeout=10 $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION 'cd /usr/share/nginx/api-fornecedor.elomilhas.com.br; composer dump; php artisan route:clear; php artisan config:clear'
+            # Restart server
+            - ssh -o ConnectTimeout=10 $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION 'service nginx reload'
+      - step:
+          name: Migrations & Seeds
+          script:
+            # Migrations
+            - ssh -o ConnectTimeout=10 $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION 'cd /usr/share/nginx/api-fornecedor.elomilhas.com.br; php artisan migrate --force'
+definitions:
+  caches:
+    npm: $HOME/.npm
