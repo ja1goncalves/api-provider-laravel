@@ -55,7 +55,7 @@ class PasswordResetService
                     'url_reset' => url("{$url_front}/recuperar-senha/".$passwordReset->token)
                 ];
 
-                SendMailBySendGrid::dispatch($data_send_mail, 'password_reset')->delay(0.5);
+                SendMailBySendGrid::dispatch($data_send_mail, 'password_reset');
             }
             return response()->json([
                 'message' => 'We have e-mailed your password reset link!'
