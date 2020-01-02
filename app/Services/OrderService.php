@@ -9,6 +9,7 @@
 namespace App\Services;
 
 use App\Entities\Order;
+use App\Entities\PaymentForm;
 use App\Repositories\BanksProvidersSegmentRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\OrdersProgramRepository;
@@ -82,14 +83,14 @@ class OrderService
             }
 
             foreach ($data['orders_programs'] as $key => $op) {
-
+                $days_to_due_date = ($op['payment_form_id'] == PaymentForm::PROGRAMADO) ? 15 : 1;
                 $data = [
                     'provider_id'                => $provider->id,
                     'quotation_id'               => $data['quotation_id'],
                     'program_id'                 => $op['id'], // program_id
                     'price'                      => $op['price'],
                     'value'                      => $op['value'],
-                    'due_date'                   => Carbon::now()->addDay(1)->format('Y-m-d'),
+                    'due_date'                   => Carbon::now()->addDay($days_to_due_date)->format('Y-m-d'),
                     'department'                 => 1,
                     'system_creator'             => 2,
                     'status_modified'            => Carbon::now()->format('Y-m-d H:i'),
