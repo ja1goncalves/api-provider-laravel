@@ -2,11 +2,13 @@
 
 namespace App\Observers;
 
+use App\Entities\Checklists;
 use \App\Entities\Provider;
 use App\Entities\Quotation;
 use App\Jobs\SendMailBySendGrid;
 use App\Services\PendingEditionService;
 use App\Services\QuotationService;
+use Carbon\Carbon;
 
 class ProviderObserver
 {
@@ -84,6 +86,16 @@ class ProviderObserver
 
         if($quotations){
             $data_send_mail['button'] = 'Realize sua primeira cotação!';
+        }
+
+        $checklists = Checklists::query()->get()->toArray();
+        foreach ($checklists as $checklist) {
+            $provider->providersChecklists()->create([
+                'provider_id' => $provider->getAttribute('id'),
+                'checklist_id' => $checklist['id'],
+                'created' => Carbon::now(),
+                'modified' => Carbon::now(),
+            ]);
         }
 
         SendMailBySendGrid::dispatch($data_send_mail, 'confirm_email')->delay(0.5);

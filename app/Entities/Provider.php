@@ -9,6 +9,7 @@ use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use function GuzzleHttp\Psr7\_parse_request_uri;
 
 /**
  * Class Provider.
@@ -107,6 +108,14 @@ class Provider extends Authenticatable implements Transformable
     public function pendingEdition()
     {
         return $this->hasMany(PendingEdition::class, ['model' => 'Providers']);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function providersChecklists()
+    {
+        return $this->hasMany(ProvidersChecklists::class, 'provider_id', 'id');
     }
 
     public static function boot()
