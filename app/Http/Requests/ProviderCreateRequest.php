@@ -27,7 +27,7 @@ class ProviderCreateRequest extends FormRequest
             "email"    => "required|email|unique:providers",
             "password" => "required|string|min:8",
             "name"     => "required|string",
-            "cpf"      => "required|string|unique:providers",
+            "cpf"      => "required|string|min:11|unique:providers",
         ];
     }
 
