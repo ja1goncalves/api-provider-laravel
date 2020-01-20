@@ -9,6 +9,7 @@ use App\Jobs\SendMailBySendGrid;
 use App\Services\PendingEditionService;
 use App\Services\QuotationService;
 use Carbon\Carbon;
+use App\Repositories\UserRepository;
 
 class ProviderObserver
 {
@@ -24,15 +25,23 @@ class ProviderObserver
     protected $pendingEditionService;
 
     /**
+     * @var UserRepository
+     */
+    protected $userRepository;
+
+    /**
      * ProviderObserver constructor.
      * @param QuotationService $quotationService
      * @param PendingEditionService $pendingEditionService
+     * @param UserRepository $userRepository
      */
     public function __construct(QuotationService $quotationService,
-                                PendingEditionService $pendingEditionService)
+                                PendingEditionService $pendingEditionService,
+                                UserRepository $userRepository)
     {
         $this->quotationService = $quotationService;
         $this->pendingEditionService = $pendingEditionService;
+        $this->userRepository = $userRepository;
     }
 
     public function creating(Provider $provider)
@@ -41,6 +50,7 @@ class ProviderObserver
             $provider->cpf = preg_replace('/\D/', '', $provider->cpf);
         }
 
+        $provider->setAttribute('user_id', $this->userRepository->findIdNextAnalystTitular()->id);
         $this->quotationService->updateFieldInRegisterProvider($provider->getAttribute('email'), 'quotation_status_id', 2, 5);
     }
 
