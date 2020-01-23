@@ -4,15 +4,10 @@ namespace App\Observers;
 
 use App\Entities\Checklists;
 use \App\Entities\Provider;
-use App\Entities\Quotation;
-use App\Jobs\SendMailBySendGrid;
-use App\Mail\ConfirmAccount;
 use App\Services\PendingEditionService;
 use App\Services\QuotationService;
 use Carbon\Carbon;
 use App\Repositories\UserRepository;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
 
 class ProviderObserver
