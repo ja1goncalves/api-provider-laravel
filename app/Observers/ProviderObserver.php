@@ -6,10 +6,14 @@ use App\Entities\Checklists;
 use \App\Entities\Provider;
 use App\Entities\Quotation;
 use App\Jobs\SendMailBySendGrid;
+use App\Mail\ConfirmAccount;
 use App\Services\PendingEditionService;
 use App\Services\QuotationService;
 use Carbon\Carbon;
 use App\Repositories\UserRepository;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Mail;
 
 class ProviderObserver
 {
@@ -86,17 +90,16 @@ class ProviderObserver
     {
         $quotations = $this->quotationService->updateByProvider($provider->getAttribute('email'), $provider->getAttribute('id'));
 
-        $data_send_mail = [
-            'to' => $provider->getAttribute('email'),
-            'subject' => 'Confirmação de Conta',
+        $data = [
             'provider' => $provider,
-            'button' => 'Realize mais cotações!',
-            'url_confirmation' => url('/api/provider/activate/'.$provider->getAttribute('activation_token'))
+            'button' => $quotations ? 'Realize mais cotações!' : 'Realize sua primeira cotação!',
         ];
 
-        if($quotations){
-            $data_send_mail['button'] = 'Realize sua primeira cotação!';
-        }
+        Mail::send('email.confirm_email', ['data' => $data], function ($message) use ($provider) {
+            $message->from('contato@elomilhas.com.br', 'Elomilhas')
+                ->to($provider->getAttribute('email'), $provider->getAttribute('name'))
+                ->subject('Confirmação de Conta');
+        });
 
         $checklists = Checklists::query()->get()->toArray();
         foreach ($checklists as $checklist) {
@@ -107,7 +110,5 @@ class ProviderObserver
                 'modified' => Carbon::now(),
             ]);
         }
-
-        SendMailBySendGrid::dispatch($data_send_mail, 'confirm_email')->delay(0.5);
     }
 }
