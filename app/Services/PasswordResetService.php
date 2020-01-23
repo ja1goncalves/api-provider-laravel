@@ -16,6 +16,7 @@ use App\Notifications\PasswordResetSuccess;
 use App\Repositories\PasswordResetRepository;
 use App\Repositories\ProviderRepository;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Mail;
 
 class PasswordResetService
 {
@@ -49,13 +50,15 @@ class PasswordResetService
             if (isset($provider) && isset($passwordReset)){
                 $url_front = Config::get('services.provider_front.url');
                 $data_send_mail = [
-                    'to' => $passwordReset->email,
-                    'subject' => 'Mudar senha',
                     'provider' => $provider,
                     'url_reset' => url("{$url_front}/recuperar-senha/".$passwordReset->token)
                 ];
 
-                SendMailBySendGrid::dispatch($data_send_mail, 'password_reset');
+                Mail::send('email.password_reset', ['data' => $data_send_mail], function ($message) use ($provider) {
+                    $message->from('contato@elomilhas.com.br', 'Elomilhas')
+                        ->to($provider->email, $provider->name)
+                        ->subject('Confirmação de Conta');
+                });
             }
             return response()->json([
                 'message' => 'We have e-mailed your password reset link!'
@@ -118,13 +121,11 @@ class PasswordResetService
         $provider->password = bcrypt($request->password);
         $provider->save();
 
-        $data_send_mail = [
-            'to' => $passwordReset->email,
-            'subject' => 'Sua senha foi alterada',
-            'provider' => $provider,
-        ];
-
-        SendMailBySendGrid::dispatch($data_send_mail, 'password_change')->delay(0.5);
+        Mail::send('email.password_change', ['provider' => $provider], function ($message) use ($provider) {
+            $message->from('contato@elomilhas.com.br', 'Elomilhas')
+                ->to($provider->email, $provider->name)
+                ->subject('Confirmação de Conta');
+        });
 
         $this->repositoryPasswordReset->delete($passwordReset->id);
 
