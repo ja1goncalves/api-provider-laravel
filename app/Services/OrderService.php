@@ -152,7 +152,7 @@ class OrderService
         Mail::send('email.confirm_op', ['provider' => $provider->name], function ($message) use ($provider) {
             $message->from('contato@elomilhas.com.br', 'Elomilhas')
                 ->to($provider->email, $provider->name)
-                ->subject('Confirmação de venda');
+                ->subject('EloMilhas - Confirmação de venda');
         });
 
 //        $config = Config::get('mail.crm_marketing');
