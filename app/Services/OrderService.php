@@ -10,6 +10,7 @@ namespace App\Services;
 
 use App\Entities\Order;
 use App\Entities\PaymentForm;
+use App\Entities\Provider;
 use App\Repositories\BanksProvidersSegmentRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\OrdersProgramRepository;
@@ -19,6 +20,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 
 /**
@@ -123,7 +125,7 @@ class OrderService
                 $orders[] = $order;
             }
 
-            $this->sendMailConfirmation($provider->id);
+            $this->sendMailConfirmation($provider);
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
@@ -142,30 +144,36 @@ class OrderService
     }
 
     /**
-     * @param $provider_id
+     * @param $provider
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    private function sendMailConfirmation($provider_id)
+    private function sendMailConfirmation($provider)
     {
-        $config = Config::get('mail.crm_marketing');
-        $token = base64_encode("{$config['username']}:{$config['password']}");
+        Mail::send('email.confirm_op', ['provider' => $provider->name], function ($message) use ($provider) {
+            $message->from('contato@elomilhas.com.br', 'Elomilhas')
+                ->to($provider->email, $provider->name)
+                ->subject('Confirmação de venda');
+        });
 
-        $data = [
-            'template_id' => 10,
-            'provider_id' => $provider_id
-        ];
-
-        $options = [
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $token
-            ],
-            'body' => json_encode($data)
-        ];
-
-        $response = Service::processRequest('POST', $config['url'], $options);
-
-        if($response->getStatusCode() != '202')
-            \Log::debug('EMAIL MARKETING DONT SEND');
+//        $config = Config::get('mail.crm_marketing');
+//        $token = base64_encode("{$config['username']}:{$config['password']}");
+//
+//        $data = [
+//            'template_id' => 10,
+//            'provider_id' => $provider_id
+//        ];
+//
+//        $options = [
+//            'headers' => [
+//                'Content-Type' => 'application/json',
+//                'Authorization' => 'Bearer ' . $token
+//            ],
+//            'body' => json_encode($data)
+//        ];
+//
+//        $response = Service::processRequest('POST', $config['url'], $options);
+//
+//        if($response->getStatusCode() != '202')
+//            \Log::debug('EMAIL MARKETING DONT SEND');
     }
 }
