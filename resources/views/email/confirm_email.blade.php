@@ -114,7 +114,7 @@
                                                     <tbody>
                                                     <tr>
                                                         <td align="center" valign="middle" style="padding-top:5px;padding-bottom:5px;padding-right:20px;padding-left:20px;">
-                                                            <a data-color="Button" data-size="Button" data-min="5" data-max="50" href="https://elomilhas.com.br/" style="font-weight:700;font-size:15px;letter-spacing:0.000em;line-height:auto;color:#294885;font-family:&#39;Coolvetica&#39;, sans-serif;mso-line-height-rule:exactly;text-decoration:none;">
+                                                            <a data-color="Button" data-size="Button" data-min="5" data-max="50" href="{{$data['url']}}" style="font-weight:700;font-size:15px;letter-spacing:0.000em;line-height:auto;color:#294885;font-family:&#39;Coolvetica&#39;, sans-serif;mso-line-height-rule:exactly;text-decoration:none;">
                                                                 {{$data['button']}}
                                                             </a>
                                                         </td>
