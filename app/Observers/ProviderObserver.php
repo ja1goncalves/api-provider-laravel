@@ -87,7 +87,8 @@ class ProviderObserver
 
         $data = [
             'provider' => $provider,
-            'button' => $quotations ? 'Realize mais cotações!' : 'Realize sua primeira cotação!',
+            'button' => $quotations ? 'Venda suas cotações!' : 'Realize sua primeira cotação!',
+            'url' => $quotations ? 'https://fornecedor.elomilhas.com.br/minhas-cotacoes' : 'https://elomilhas.com.br/',
         ];
 
         Mail::send('email.confirm_email', ['data' => $data], function ($message) use ($provider) {
