@@ -2,16 +2,18 @@
 
 namespace App\Entities;
 
+use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
- * Class Quotation.
+ * Class Emission.
  *
  * @package namespace App\Entities;
  */
-class Quotation extends AppEntity implements Transformable
+class Emission extends Model implements Transformable
 {
+    protected $connection = 'pgsql';
     use TransformableTrait;
 
     /**
@@ -19,24 +21,23 @@ class Quotation extends AppEntity implements Transformable
      *
      * @var array
      */
-    protected $fillable = [
-        'provider_id'
-    ];
+    protected $fillable = [];
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function programsQuotations()
+    public function passenger()
     {
-        return $this->hasMany(ProgramsQuotation::class, 'quotation_id');
+        return $this->hasMany(Passengers::class, 'id', 'passenger_id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function orders()
+    public function flight()
     {
-        return $this->hasMany(Order::class, 'quotation_id', 'id');
+        return $this->hasMany(Flight::class, 'id', 'flight_id');
     }
 
 }
