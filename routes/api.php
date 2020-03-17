@@ -47,6 +47,9 @@ Route::group(['prefix' => 'provider'], function () {
         //Quotations
         Route::get('quotations',                'QuotationsController@listQuotationsByProvider');// Lista as quotações de um provider.
 
+        //Emissions
+        Route::get('emissions',                'EmissionsController@emissionByProvider');// Lista as emissões de um Emissao.
+
         //Banks
         Route::get('banks',                     'BanksController@listAll');// Retorna os bancos.
 
