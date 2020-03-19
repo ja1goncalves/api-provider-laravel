@@ -58,11 +58,11 @@ return [
 
         'pgsql' => [
             'driver' => 'pgsql',
-            'host' => env('PG_HOST', '10.1.5.105'),
+            'host' => env('PG_HOST', '127.0.0.1'),
             'port' => env('PG_PORT', '5432'),
             'database' => env('PG_DATABASE', 'busca-aereo'),
-            'username' => env('PG_USERNAME', 'postgres'),
-            'password' => env('PG_PASSWORD', 'postgres'),
+            'username' => env('PG_USERNAME', ''),
+            'password' => env('PG_PASSWORD', ''),
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
