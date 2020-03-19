@@ -50,7 +50,7 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
                 LEFT JOIN providers on (providers.user_id = Users.id and providers.created BETWEEN '{$init_today}' and '{$end_today}')
                 WHERE Users.analyst_titular = 1 and Users.group_id = 4
                 GROUP BY Users.id
-                ORDER BY total_providers ASC LIMIT 1")[0];
+                ORDER BY total_providers ASC LIMIT 1")[0] ?? null;
     }
 
 }
