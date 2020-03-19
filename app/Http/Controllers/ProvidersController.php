@@ -8,6 +8,8 @@ use App\Http\Requests\ProviderCreateRequest;
 use App\Services\ProviderService;
 use App\Validators\ProviderValidator;
 use Illuminate\Http\Request;
+use App\Services\Service;
+use Illuminate\Support\Facades\Log;
 
 class ProvidersController extends Controller
 {
@@ -73,5 +75,31 @@ class ProvidersController extends Controller
                 'message' => "User not found"
             ]);
         }
+    }
+
+
+    public function listEmission(Request $request, $cpf)
+    {
+       
+        $page = $request->get('page');
+        $limit = $request->get('limit');
+
+        $endpoint = "https://api.buscaaereo.com.br/provider/emissions?cpf=".$cpf."&limit=".$limit."&page=".$page;
+        $method = 'GET';
+        $options =[
+            'headers' => [
+                'content-type' => 'application/json',
+                'authorization' => 'Bearer we8sfh98weghfwegf87wegf7geedfiF1J6E3qkND0AxtFY0KDJ6WfCwwe90f8ywe978gfg98ewfyh657SQhVbVkn28H9NNU3wr9CGVnffctIEEnDhRga1D2HbsgG98wehf98wew9efh8ge8wgf87',
+                'accept'    =>  'application/json'
+            ],
+        ];
+        
+        $response = Service::processRequest($method, $endpoint, $options);
+
+        if ($response->getStatusCode() !== 200) {
+            Log::alert("Nenhuma emisssssão recente.");
+        }
+
+        return $response->getBody()->getContents();
     }
 }
