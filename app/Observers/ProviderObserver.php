@@ -49,7 +49,7 @@ class ProviderObserver
             $provider->cpf = preg_replace('/\D/', '', $provider->cpf);
         }
 
-        $provider->setAttribute('user_id', $this->userRepository->findIdNextAnalystTitular()->id);
+        $provider->setAttribute('user_id', $this->userRepository->findIdNextAnalystTitular()->id ?? null);
         $this->quotationService->updateFieldInRegisterProvider($provider->getAttribute('email'), 'quotation_status_id', 2, 5);
     }
 
