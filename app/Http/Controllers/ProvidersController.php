@@ -96,10 +96,6 @@ class ProvidersController extends Controller
         
         $response = Service::processRequest($method, $endpoint, $options);
 
-        if ($response->getStatusCode() !== 200) {
-            Log::alert("Nenhuma emisssssão recente.");
-        }
-
         return $response->getBody()->getContents();
     }
 }
