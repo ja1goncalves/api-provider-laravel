@@ -97,7 +97,7 @@ class ProvidersController extends Controller
 
         try {
             $response = Service::processRequest($method, $endpoint, $options);
-            $response = $response->getBody()->getContents();
+            $response = json_decode($response->getBody()->getContents(), true);
         } catch (GuzzleException $e) {
             $response = response()->json([
                 'message' => 'Não foi possível pegar as emissões do fornecedor',
