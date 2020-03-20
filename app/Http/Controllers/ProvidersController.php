@@ -77,18 +77,19 @@ class ProvidersController extends Controller
     }
 
 
-    public function listEmission(Request $request, $cpf)
+    public function listEmission(Request $request)
     {
        
         $page = $request->get('page');
         $limit = $request->get('limit');
+        $cpf = $request->get('cpf');
 
         $endpoint = "https://api.buscaaereo.com.br/provider/emissions?cpf=".$cpf."&limit=".$limit."&page=".$page;
         $method = 'GET';
         $options =[
             'headers' => [
                 'content-type' => 'application/json',
-                'authorization' => 'Bearer we8sfh98weghfwegf87wegf7geedfiF1J6E3qkND0AxtFY0KDJ6WfCwwe90f8ywe978gfg98ewfyh657SQhVbVkn28H9NNU3wr9CGVnffctIEEnDhRga1D2HbsgG98wehf98wew9efh8ge8wgf87',
+                'authorization' => 'Bearer ' .env('BUSCAAEREO_AUTHORIZATION'),
                 'accept'    =>  'application/json'
             ],
         ];
