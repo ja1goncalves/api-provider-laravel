@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Http\Request;
 use App\Http\Controllers\Traits\CrudMethods;
 use App\Services\ProviderService;
 use App\Services\QuotationService;

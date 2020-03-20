@@ -21,6 +21,7 @@ use App\Services\Traits\CrudMethods;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 
 /**
@@ -108,7 +109,7 @@ class ProviderService
             'name'               => $data['name'],
             'phone'              => preg_replace('/\D/', '', $data['phone'] ?? ''),
             'cellphone'          => preg_replace('/\D/', '', $data['cellphone'] ?? ''),
-            'activation_token'  => str_random(60)
+            'activation_token'  => Str::random(60)
         ];
 
         DB::beginTransaction();
@@ -148,7 +149,7 @@ class ProviderService
             'name'               => $data['name'],
             'phone'              => preg_replace('/\D/', '', $data['phone'] ?? ''),
             'cellphone'          => preg_replace('/\D/', '', $data['cellphone'] ?? ''),
-            'activation_token'   => str_random(60)
+            'activation_token'   => Str::random(60)
         ];
 
         DB::beginTransaction();

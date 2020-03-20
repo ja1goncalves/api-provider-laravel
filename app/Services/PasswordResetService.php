@@ -17,6 +17,7 @@ use App\Repositories\PasswordResetRepository;
 use App\Repositories\ProviderRepository;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class PasswordResetService
 {
@@ -44,7 +45,7 @@ class PasswordResetService
                 [   'email' => $provider->email],
                 [
                     'email' => $provider->email,
-                    'token' => str_random(60)
+                    'token' => Str::random(60)
                 ]
             );
             if (isset($provider) && isset($passwordReset)){
