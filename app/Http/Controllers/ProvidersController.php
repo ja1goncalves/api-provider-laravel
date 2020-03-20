@@ -9,7 +9,6 @@ use App\Services\ProviderService;
 use App\Validators\ProviderValidator;
 use Illuminate\Http\Request;
 use App\Services\Service;
-use Illuminate\Support\Facades\Log;
 
 class ProvidersController extends Controller
 {
