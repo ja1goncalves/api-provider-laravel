@@ -7,6 +7,7 @@ use App\Http\Controllers\Traits\CrudMethods;
 use App\Http\Requests\ProviderCreateRequest;
 use App\Services\ProviderService;
 use App\Validators\ProviderValidator;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Request;
 use App\Services\Service;
 
@@ -79,7 +80,7 @@ class ProvidersController extends Controller
 
     public function listEmission(Request $request)
     {
-       
+
         $page = $request->get('page');
         $limit = $request->get('limit');
         $cpf = $request->get('cpf');
@@ -93,9 +94,17 @@ class ProvidersController extends Controller
                 'accept'    =>  'application/json'
             ],
         ];
-        
-        $response = Service::processRequest($method, $endpoint, $options);
 
-        return $response->getBody()->getContents();
+        try {
+            $response = Service::processRequest($method, $endpoint, $options);
+            $response = $response->getBody()->getContents();
+        } catch (GuzzleException $e) {
+            $response = response()->json([
+                'message' => 'Não foi possível pegar as emissões do fornecedor',
+                'error' => true
+            ], 500);
+        }
+
+        return $response;
     }
 }
