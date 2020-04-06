@@ -27,9 +27,10 @@ pipelines:
             - .env
       - step:
           name: Deploy
+          image: jguyomard/laravel-php:7.1
           script:
-            - apt update
-            - apt install openssh
+            - apk update
+            - apk add openssh
             - >-
               ssh -o ConnectTimeout=10 $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION -p$SSH_PORT_PRODUCTION
               'cd /var/www/api-fornecedor.elomilhas.com.br;
