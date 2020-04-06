@@ -26,14 +26,14 @@ pipelines:
             - vendor/**
             - .env
       - step:
-        name: Deploy
-        script:
-          - apk update
-          - apk add openssh
-          - >-
-            ssh -o ConnectTimeout=10 $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION -p$SSH_PORT_PRODUCTION
-            'cd /var/www/api-fornecedor.elomilhas.com.br;
-             git pull origin master'
+          name: Deploy
+          script:
+            - apk update
+            - apk add openssh
+            - >-
+              ssh -o ConnectTimeout=10 $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION -p$SSH_PORT_PRODUCTION
+              'cd /var/www/api-fornecedor.elomilhas.com.br;
+               git pull origin master'
       - step:
           name: Clear Cache
           script:
