@@ -28,8 +28,8 @@ pipelines:
       - step:
           name: Deploy
           script:
-            - apk update
-            - apk add openssh
+            - apt update
+            - apt install openssh
             - >-
               ssh -o ConnectTimeout=10 $SSH_USER_PRODUCTION@$SSH_HOST_PRODUCTION -p$SSH_PORT_PRODUCTION
               'cd /var/www/api-fornecedor.elomilhas.com.br;
